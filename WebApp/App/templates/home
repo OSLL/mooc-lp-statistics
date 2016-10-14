@@ -26,7 +26,11 @@
             <div class="col-md-6">
                 <div class="row">
                     <div class="col-md-6 text-right">Фильтр времени</div>
-                    <div class="col-md-6">Фильтр событий</div>
+                    <div class="col-md-6">
+                        <p class="text-center">
+                            Фильтр событий
+                        </p>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">Начало диапазона
@@ -44,10 +48,7 @@
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <p class="text-center">
-                            <br>
-                        </p>
-
+                        <br>
                         <ul class="list-group">
                             <li class="list-group-item">
                                 <input type="checkbox"> One
