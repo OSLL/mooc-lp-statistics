@@ -22,42 +22,87 @@
 <section id="top">
     <div class="container">
         <div class="row">
-            <div class="col-md-3">Фильтр времени</div>
-            <div class="col-md-3">Фильтр событий</div>
-            <div class="col-md-6">График</div>
+
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-6 text-right">Фильтр времени</div>
+                    <div class="col-md-6">Фильтр событий</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">Начало диапазона
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1">date</span>
+                            <input type="text" class="form-control" placeholder="DD/MM/YYYY"
+                                   aria-describedby="basic-addon1">
+                        </div>
+                    </div>
+                    <div class="col-md-4">Конец диапазона
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon2">date</span>
+                            <input type="text" class="form-control" placeholder="DD/MM/YYYY"
+                                   aria-describedby="basic-addon1">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="text-center">
+                            <br>
+                        </p>
+
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <input type="checkbox"> One
+                            </li>
+                            <li class="list-group-item">
+                                <input type="checkbox"> Two
+                            </li>
+                            <li class="list-group-item">
+                                <input type="checkbox"> Three
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <button type="button" class="btn btn-success">Показать результаты</button>
+                    <div class="panel panel-default">
+                        <p class="text-center">Список событий</p>
+                    </div>
+                    <div class="list-group">
+                        <a href="#" class="list-group-item active">
+                            Событие1
+                        </a>
+                        <a href="#" class="list-group-item">Событие2</a>
+                        <a href="#" class="list-group-item">Событие3</a>
+                        <a href="#" class="list-group-item">Событие4</a>
+                        <a href="#" class="list-group-item">Событие5</a>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-6">
+                <div class="row">
+                    <p class="text-center">
+                        График
+                    </p>
+                </div>
+                <div class="row">
+                    <button class="btn btn-default" href="#" role="button">type1</button>
+                    <button class="btn btn-default" type="submit">type2</button>
+                    <button class="btn btn-default" type="submit">type3</button>
+                    <button class="btn btn-default" type="submit">type4</button>
+                </div>
+                <div class="row">
+                    <img src="static/js/1414_original_MTMxM.png" class="img-responsive" alt="Responsive image">
+                </div>
+
+            </div>
         </div>
 </section>
 <section id="middle">
     <div class="container">
         <div class="row">
-            <div class="col-md-2">Начало диапазона
-                <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon1">date</span>
-                    <input type="text" class="form-control" placeholder="DD/MM/YYYY" aria-describedby="basic-addon1">
-                </div>
-            </div>
-            <div class="col-md-2">Конец диапазона
-                <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon2">date</span>
-                    <input type="text" class="form-control" placeholder="DD/MM/YYYY" aria-describedby="basic-addon1">
-                </div>
-            </div>
-            <div class="col-md-2">Фильтр событий
-                <ul class="list-group">
-                    <li class="list-group-item">
-                        <input type="checkbox"> One
-                    </li>
-                    <li class="list-group-item">
-                        <input type="checkbox"> Two
-                    </li>
-                    <li class="list-group-item">
-                        <input type="checkbox"> Three
-                    </li>
-                </ul>
-            </div>
-            <div class="col-md-6">
 
-            </div>
         </div>
     </div>
 </section>
@@ -65,27 +110,8 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6">
-                <button type="button" class="btn btn-success">Показать результаты</button>
-                <div class="panel panel-default">
-                    <p class="text-center">Список событий</p>
-                </div>
-                <div class="list-group">
-                    <a href="#" class="list-group-item active">
-                        Событие1
-                    </a>
-                    <a href="#" class="list-group-item">Событие2</a>
-                    <a href="#" class="list-group-item">Событие3</a>
-                    <a href="#" class="list-group-item">Событие4</a>
-                    <a href="#" class="list-group-item">Событие5</a>
-                </div>
 
-            </div>
-            <div class="col-md-6">
-                <a class="btn btn-default" href="#" role="button">type1</a>
-                <button class="btn btn-default" type="submit">type2</button>
-                <button class="btn btn-default" type="submit">type3</button>
-                <button class="btn btn-default" type="submit">type4</button>
-                <img src="static/js/1414_original_MTMxM.png" class="img-responsive" alt="Responsive image">
+
             </div>
         </div>
     </div>
