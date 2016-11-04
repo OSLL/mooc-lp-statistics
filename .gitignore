@@ -2,6 +2,8 @@
 ### Python template
 # Byte-compiled / optimized / DLL files
 __pycache__/
+/App/__pycache__
+/App/migrations/__pycache__
 *.py[cod]
 *$py.class
 
@@ -91,3 +93,9 @@ ENV/
 .ropeproject
 
 .idea/
+App/__init__.py
+App/serializers.py
+App/static/img/1414_original_MTMxM.png
+App/static/txt/
+WebApp/
+db.sqlite3
