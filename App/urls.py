@@ -5,7 +5,7 @@ from App import views
 
 urlpatterns = [
     url(r'^server/log/$', views.Find_in_databaseList.as_view()),
-    url(r'^server/log/(?P<pk>[$]+)/$', views.Find_in_databaseDetail.as_view()),
+    url(r'^server/log/(?)/$', views.Find_in_databaseDetail.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

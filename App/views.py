@@ -3,60 +3,40 @@ from django.shortcuts import render
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.renderers import JSONRenderer
+from rest_framework.parsers import JSONParser
 
 from App.another_functions import *
 from App.models import Find_in_database
 from App.serializers import Find_in_databaseSerializer
 
 
-class Find_in_databaseList(APIView):
+class JSONResponse(HttpResponse):
     """
-    List all Find_in_databases, or create a new Find_in_database.
+    An HttpResponse that renders its content into JSON.
     """
+    def __init__(self, data, **kwargs):
+        content = JSONRenderer().render(data)
+        kwargs['content_type'] = 'application/json'
+        super(JSONResponse, self).__init__(content, **kwargs)
 
-    def get(self, request, format=None):
-        Find_in_databases = Find_in_database.objects.all()
-        serializer = Find_in_databaseSerializer(Find_in_databases, many=True)
-        return Response(serializer.data)
 
-    def post(self, request, format=None):
-        serializer = Find_in_databaseSerializer(data=request.data)
+@csrf_exempt
+def Find_in_database_list(request):
+    if request.method == 'GET':
+        snippets = Find_in_database.objects.all()
+        serializer = Find_in_databaseSerializer(snippets, many=True)
+        return JSONResponse(serializer.data)
+
+    elif request.method == 'POST':
+        data = JSONParser().parse(request)
+        serializer = Find_in_databaseSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-class Find_in_databaseDetail(APIView):
-    """
-    Retrieve, update or delete a Find_in_database instance.
-    """
-
-    def get_object(self, pk):
-        try:
-            return Find_in_database.objects.get(pk=pk)
-        except Find_in_database.DoesNotExist:
-            raise Http404
-
-    def get(self, request, pk, format=None):
-        Find_in_database = self.get_object(pk)
-        serializer = Find_in_databaseSerializer(Find_in_database)
-        return Response(serializer.data)
-
-    def put(self, request, pk, format=None):
-        Find_in_database = self.get_object(pk)
-        serializer = Find_in_databaseSerializer(Find_in_database, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def delete(self, request, pk, format=None):
-        Find_in_database = self.get_object(pk)
-        Find_in_database.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
-
+            return JSONResponse(serializer.data, status=201)
+        return JSONResponse(serializer.errors, status=400)
 
 
 def home(request):
