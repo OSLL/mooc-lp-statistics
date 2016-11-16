@@ -13,6 +13,20 @@
             text-align: center;
         }
     </style>
+    <script>
+        function getcontent(inp) {
+            $("#retn").empty();
+            $.ajax({
+                type: "GET",
+                url: "App/another_functions.py", dataType: "script",
+                success: function (html) {
+                    $("#retn").append(html);
+                }
+
+            });
+        }
+    </script>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -20,6 +34,8 @@
     <link href="../static/css/bootstrap.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="../static/js/bootstrap.js"></script>
+    <script type="text/javascript" src="../static/js/js_for_home_page.js"></script>
+    <script type="text/javascript" src="../static/js/jquery-1.5.1.js"></script>
 </head>
 <body>
 <section id="top">
@@ -38,14 +54,14 @@
                     <div class="col-md-4" align="center">Начало диапазона
                         <div class="input-group">
                             <span class="input-group-addon" id="basic-addon1">date</span>
-                            <input type="text" class="form-control" placeholder="DD/MM/YYYY"
+                            <input id="first_date" type="text" class="form-control" placeholder="Y-M-D H:M:S.mS"
                                    aria-describedby="basic-addon1">
                         </div>
                     </div>
                     <div class="col-md-4" align="center">Конец диапазона
                         <div class="input-group">
                             <span class="input-group-addon" id="basic-addon2">date</span>
-                            <input type="text" class="form-control" placeholder="DD/MM/YYYY"
+                            <input id="first_date" type="text" class="form-control" placeholder="Y-M-D H:M:S.mS"
                                    aria-describedby="basic-addon1">
                         </div>
                     </div>
@@ -66,7 +82,7 @@
                 </div>
                 <div class="row">
                     <div class="center">
-                        <button type="button " class="btn btn-success">Показать результаты</button>
+                        <button onclick="getdate()" type="button " class="btn btn-success">Показать результаты</button>
                     </div>
                     <div class="panel panel-default voffset2">
                         <p class="text-center">
