@@ -7,7 +7,7 @@ from App import another_functions
 
 urlpatterns = [
     url(r'^update_log_in_db/', parsing()),
-    url(r'^server/log/(?P<date_from>[0-9a-zA-Z_-]+<date_to>[0-9a-zA-Z_-]<event>[0-9a-zA-Z_-]+<interval>[0-9a-zA-Z_-]+<number>[0-9a-zA-Z_-]+<offset>[0-9a-zA-Z_-])/$', views.Find_in_database_list()),
+    url(r'^server/log/(?P<date_from>[0-9a-zA-Z_-]+<date_to>[0-9a-zA-Z_-]<event>[0-9a-zA-Z_-]+<interval>[0-9a-zA-Z_-]+<number>[0-9a-zA-Z_-]+<offset>[0-9a-zA-Z_-])$', views.Find_in_database_list()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
