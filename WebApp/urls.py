@@ -19,5 +19,5 @@ from App import views
 
 urlpatterns = (
     url(r'^$', views.home),
-    # url(r'^server/log/', views.Find_in_database_list.as_view()),
+    url(r'^$', include(App.urls)
 )

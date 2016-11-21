@@ -30,13 +30,8 @@ def Find_in_database_list(request):
         serializer = Find_in_databaseSerializer(snippets, many=True)
         return JSONResponse(serializer.data)
 
-    elif request.method == 'POST':
-        data = JSONParser().parse(request)
-        serializer = Find_in_databaseSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return JSONResponse(serializer.data, status=201)
-        return JSONResponse(serializer.errors, status=400)
+
+
 
 
 def home(request):
