@@ -19,5 +19,6 @@ from App import views
 
 urlpatterns = (
     url(r'^$', views.home),
-    url(r'^$', include(App.urls)
+    url('^get/$', views.get),
+    # url(r'^$', include(urls))
 )

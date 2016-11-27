@@ -55,21 +55,21 @@
                         <div class="input-group">
                             <span class="input-group-addon" id="basic-addon1">date</span>
                             <input id="first_date" type="text" class="form-control" placeholder="YYYY-M-D H:M:S.mS"
-                                   aria-describedby="basic-addon1">
+                                   aria-describedby="basic-addon1" value="2016-05-13 15:33:01.0">
                         </div>
                     </div>
                     <div class="col-md-4" align="center">Конец диапазона
                         <div class="input-group">
                             <span class="input-group-addon" id="basic-addon2">date</span>
                             <input id="second_date" type="text" class="form-control" placeholder="YYYY-M-D H:M:S.mS"
-                                   aria-describedby="basic-addon1">
+                                   aria-describedby="basic-addon1" value="2016-05-16 15:35:01.0">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <br>
                         <ul class="list-group">
                             <li class="list-group-item">
-                                <input id="first_event" type="checkbox"> One
+                                <input id="first_event" type="checkbox">pdaemon is already running
                             </li>
                             <li class="list-group-item">
                                 <input id="second_event" type="checkbox"> Two
@@ -82,7 +82,8 @@
                 </div>
                 <div class="row">
                     <div class="center">
-                        <button onclick="getdate()" type="button " class="btn btn-success">Показать результаты</button>
+                        <button onclick="write_list()" type="button " class="btn btn-success">Показать результаты
+                        </button>
                     </div>
                     <div class="panel panel-default voffset2">
                         <p class="text-center">
@@ -90,12 +91,7 @@
                         </p>
                     </div>
                     <div class="prokrutka">
-                        <div class="list-group">
-                            {% for elem in collection %}
-                                <a href="#" class="list-group-item">
-                                    [{{ elem.Time|date:"D d M Y" }} {{ elem.Time|time:"H:i:s::u" }}] [{{ elem.UID }}]
-                                    [{{ elem.Event }}]</a>
-                            {% endfor %}
+                        <div id="list-group">
                         </div>
                     </div>
                 </div>
