@@ -61,14 +61,13 @@ def parsing():
     return list_of_result_lists
 
 
-def pickup_from_database(collection, date_from='1015-05-16 15:35:01.0', date_to='3016-05-16 15:35:01.0', event=None,
+def pickup_from_database(date_from='1015-05-16 15:35:01.0', date_to='3016-05-16 15:35:01.0', event=None,
                          number=0, offset=0, interval=None):
     if date_from == None:
         date_from = '1015-05-16 15:35:01.0'
     if date_to == None:
         date_to = '3016-05-16 15:35:01.0'
     date_from = datetime.strptime(date_from, '%Y-%m-%d %H:%M:%S.%f')
-    print(date_from.hour)
     date_to = datetime.strptime(date_to, '%Y-%m-%d %H:%M:%S.%f')
     a = db.collect.find({"Time": {"$gte": date_from, "$lte": date_to}, "Event": event}).sort("Time").skip(offset).limit(
         number)

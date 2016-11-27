@@ -22,6 +22,14 @@ function write_list() {
         return [date_array, end_array];
     }
 
+    function draw() {
+        new Chartist.Bar('#myChart', {
+            labels: ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'],
+            series: [20, 60, 120, 200, 180, 20, 10]
+        }, {
+            distributeSeries: true
+        });
+    }
     elem = getdate();
     if (elem[0] != null) {
         var date_from = elem[0][0];
@@ -42,9 +50,11 @@ function write_list() {
             document.getElementById("list-group").innerHTML = xmlhttp.responseText;
 
     };
+    draw();
     if (date_from != null && date_to != null)
         xmlhttp.open("get", "/get?date_from=" + date_from + "&date_to=" + date_to + "&event=" + event, true);
     else
         xmlhttp.open("get", "/get?event=" + event, true);
     xmlhttp.send();
+
 }

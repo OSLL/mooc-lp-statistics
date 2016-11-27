@@ -7,5 +7,19 @@ overflow-x: scroll; /* прокрутка по горизонтали */
 overflow-y: scroll; /* прокрутка по вертикали */ 
 } 
 .center { 
-text-align: center; 
-} 
+text-align: center;
+}
+
+#myChart {
+}
+
+.ct-series-a .ct-bar {
+    /* Colour of your bars */
+    stroke: red;
+    /* The width of your bars */
+    stroke-width: 20px;
+    /* Yes! Dashed bars! */
+    stroke-dasharray: 20px;
+    /* Maybe you like round corners on your bars? */
+    stroke-linecap: round;
+}
