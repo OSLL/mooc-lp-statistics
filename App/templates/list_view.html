@@ -1,0 +1,5 @@
+{% for elem in  collection %}
+    <a href="#" class="list-group-item">
+        [{{ elem.Time|date:"D d M Y" }} {{ elem.Time|time:"H:i:s::u" }}] [{{ elem.UID }}]
+        [{{ elem.Event }}]</a>
+{% endfor %}
