@@ -48,11 +48,15 @@ function write_list() {
 
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             var row = '';
+
             var response =  JSON.parse(xmlhttp.response);
+            console.log(response)
+
+            //var response = response_list.a
             for (var i in response) {
                 row += '<a href="#" class="list-group-item">' + '[' + response[i].Time.$date + ']' + ' ' + '[' + response[i].UID + ']' + ' ' + '[' +response[i].Event+ ']' + '<br>';
             }
-            console.log(response)
+
             document.getElementById("list-group").innerHTML = row;
 
         }

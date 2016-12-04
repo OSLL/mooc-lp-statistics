@@ -63,35 +63,87 @@ def parsing():
 
 
 def pickup_from_database(date_from='1015-05-16 15:35:01.0', date_to='3016-05-16 15:35:01.0', event=None,
-                         number=0, offset=0, interval=None):
-    if date_from == None:
-        date_from = '1015-05-16 15:35:01.0'
-    if date_to == None:
-        date_to = '3016-05-16 15:35:01.0'
+                         number=10, offset=0, interval=None):
+
+    global d
     date_from = datetime.strptime(date_from, '%Y-%m-%d %H:%M:%S.%f')
     date_to = datetime.strptime(date_to, '%Y-%m-%d %H:%M:%S.%f')
     a = db.collect.find({"Time": {"$gte": date_from, "$lte": date_to}, "Event": event}).sort("Time").skip(offset).limit(
         number)
     c = dumps(a ,json_options= STRICT_JSON_OPTIONS)
-    b = db.collect.aggregate(
-        [
-            {
-                "$match": {
-                    "Time": {"$gte": date_from, "$lte": date_to}
+    if interval == 'hour' :
+        b = db.collect.aggregate(
+            [
+                {
+                    "$match": {
+                        "Time": {"$gte": date_from, "$lte": date_to}
+                    }
+                },
+                {
+                    "$group": {
+                        "_id": {"year": {"$year": "$Time"},"month": {"$month": "$Time"}, "day": {"$dayOfMonth": "$Time"}, "hour": {"$hour": "$Time"}},
+                        "count": {"$sum": 1}
+                    }
                 }
-            },
-            {
+            ]
+            )
+        d = dumps(b)
+        for_draw =[]
+        for elem in b:
+            single_stat = (str(elem['_id']['hour']) + '.' + str(elem['_id']['day']) + '.' + str(elem['_id']['month']) + '.' + str(elem['_id']['year']), str(elem['count']))
+            for_draw += [single_stat]
 
-                "$group": {
-                    "_id": {"month": {"$month": "$Time"}, "day": {"$dayOfMonth": "$Time"}, "hour": {"$hour": "$Time"}},
-                    "count": {"$sum": 1}
+
+    elif interval == 'day':
+        b = db.collect.aggregate(
+            [
+                {
+                    "$match": {
+                        "Time": {"$gte": date_from, "$lte": date_to}
+                    }
+                },
+                {
+                    "$group": {
+                        "_id": {"month": {"$month": "$Time"}, "day": {"$dayOfMonth": "$Time"}},
+                        "count": {"$sum": 1}
+                    }
                 }
-            }
-        ]
-    )
-    for elem in b:
-        print(elem)
-    return c
+            ]
+            )
+        d = dumps(b)
+        for_draw = []
+        for elem in b:
+            single_stat = (
+            str(elem['_id']['day']) + '.' + str(elem['_id']['month']) + '.' + str(
+                elem['_id']['year']), str(elem['count']))
+            for_draw += [single_stat]
+
+
+    elif interval == 'month':
+        b = db.collect.aggregate(
+            [
+                {
+                    "$match": {
+                        "Time": {"$gte": date_from, "$lte": date_to}
+                    }
+                },
+                {
+                    "$group": {
+                        "_id": {"month": {"$month": "$Time"}},
+                        "count": {"$sum": 1}
+                    }
+                }
+            ]
+            )
+        d = dumps(b)
+        for_draw = []
+        for elem in b:
+            single_stat = (
+            str(elem['_id']['month']) + '.' + str(
+                elem['_id']['year']), str(elem['count']))
+            for_draw += [single_stat]
+
+    return { "a" : c, "b" : d}
 
 
 def writing_into_database(results, coll):
