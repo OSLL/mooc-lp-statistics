@@ -30,6 +30,7 @@ function write_list() {
             distributeSeries: true
         });
     }
+
     elem = getdate();
     if (elem[0] != null) {
         var date_from = elem[0][0];
@@ -45,16 +46,23 @@ function write_list() {
         xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
     xmlhttp.onreadystatechange = function () {
 
-        if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            var row = '';
+            var response =  JSON.parse(xmlhttp.response);
+            for (var i in response) {
+                row += '<a href="#" class="list-group-item">' + '[' + response[i].Time.$date + ']' + ' ' + '[' + response[i].UID + ']' + ' ' + '[' +response[i].Event+ ']' + '<br>';
+            }
+            console.log(response)
+            document.getElementById("list-group").innerHTML = row;
 
-            document.getElementById("list-group").innerHTML = xmlhttp.responseText;
+        }
+    }
+        ;
+        draw();
+        if (date_from != null && date_to != null)
+            xmlhttp.open("get", "/get?date_from=" + date_from + "&date_to=" + date_to + "&event=" + event, true);
+        else
+            xmlhttp.open("get", "/get?event=" + event, true);
+        xmlhttp.send();
 
-    };
-    draw();
-    if (date_from != null && date_to != null)
-        xmlhttp.open("get", "/get?date_from=" + date_from + "&date_to=" + date_to + "&event=" + event, true);
-    else
-        xmlhttp.open("get", "/get?event=" + event, true);
-    xmlhttp.send();
-
-}
+    }

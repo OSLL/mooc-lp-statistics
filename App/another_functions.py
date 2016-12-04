@@ -3,6 +3,7 @@ from datetime import datetime
 
 from pymongo import MongoClient
 from pyparsing import Word, alphas, nums, Suppress, OneOrMore, Group, ZeroOrMore
+from bson.json_util import dumps, DatetimeRepresentation, STRICT_JSON_OPTIONS
 
 
 def parsing():
@@ -71,6 +72,7 @@ def pickup_from_database(date_from='1015-05-16 15:35:01.0', date_to='3016-05-16 
     date_to = datetime.strptime(date_to, '%Y-%m-%d %H:%M:%S.%f')
     a = db.collect.find({"Time": {"$gte": date_from, "$lte": date_to}, "Event": event}).sort("Time").skip(offset).limit(
         number)
+    c = dumps(a ,json_options= STRICT_JSON_OPTIONS)
     b = db.collect.aggregate(
         [
             {
@@ -89,7 +91,7 @@ def pickup_from_database(date_from='1015-05-16 15:35:01.0', date_to='3016-05-16 
     )
     for elem in b:
         print(elem)
-    return a
+    return c
 
 
 def writing_into_database(results, coll):
