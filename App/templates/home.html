@@ -39,10 +39,11 @@
     <script type="text/javascript" src="../static/js/jquery-1.5.1.js"></script>
     <link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
     <script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+    <script src="../static/js/loader.js"></script>
 
 </head>
 <body>
-<section id="top">
+
     <div class="container">
         <div class="row">
             <div class="col-md-6">
@@ -107,16 +108,15 @@
                     </h3>
                 </div>
                 <div class="row voffset2">
-                    <button class="btn btn-default" href="#" role="button">type1</button>
-                    <button class="btn btn-default" type="submit">type2</button>
-                    <button class="btn btn-default" type="submit">type3</button>
-                    <button class="btn btn-default" type="submit">type4</button>
+                    <button onclick="drawLineColors()" class="btn btn-default" href="#" role="button">Line type</button>
+                    <button onclick="drawPieChart()" class="btn btn-default" type="submit">Pie type</button>
                 </div>
                 <div class="row" id="myChart">
+                    <div id="chart_div"></div>
                 </div>
             </div>
         </div>
     </div>
-</section>
+
 </body>
 </html>
