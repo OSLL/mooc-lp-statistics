@@ -46,5 +46,10 @@ def get(request):
         event = request.GET['event']
     except:
         event = None
-    Col = pickup_from_database(date_from, date_to, event)
-    return render(request, 'list_view.html', {'collection': Col})
+
+    Col = pickup_from_database(event= event, date_from= date_from, date_to= date_to, interval = 'hour')
+    list = Col['a']
+    stat = Col['b']
+    print(list)
+    print(stat)
+    return render(request, 'list_view.html', {'list': list}, {'stat': stat})
