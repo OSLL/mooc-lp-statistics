@@ -32,8 +32,8 @@ function write_list() {
     }
     var xmlhttp = null;
     var date_array = [];
-    var count_array =[];
-    var rows_for_draw =[];
+    var count_array = [];
+    var rows_for_draw = [];
     if (window.XMLHttpRequest)
         xmlhttp = new XMLHttpRequest();
     else
@@ -43,64 +43,72 @@ function write_list() {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             var row = '';
             var r = xmlhttp.response;
-            var response =  JSON.parse(r);
+            var response = JSON.parse(r);
             var parsed_list = JSON.parse(response['a']);
             var parsed_stat = JSON.parse(response['b']);
             console.log(parsed_stat);
             var date_str = ''
-            for (var i in parsed_stat){
-                if ( 'hour' in parsed_stat[i]['_id']) {
+            for (var i in parsed_stat) {
+                if ('hour' in parsed_stat[i]['_id']) {
                     date_str = parsed_stat[i]._id.hour + ':~:~ ' + parsed_stat[i]._id.day + '.' + parsed_stat[i]._id.month + '.' + parsed_stat[i]._id.year.toString().slice(-2);
                     count_array.push(parsed_stat[i].count);
                     date_array.push(date_str);
-                } else if ( 'day' in parsed_stat[i]['_id']) {
+                } else if ('day' in parsed_stat[i]['_id']) {
                     date_str = parsed_stat[i]._id.day + '.' + parsed_stat[i]._id.month + '.' + parsed_stat[i]._id.year.toString().slice(-2);
                     count_array.push(parsed_stat[i].count);
                     date_array.push(date_str);
-                } else if ( 'month' in parsed_stat[i]['_id']) {
+                } else if ('month' in parsed_stat[i]['_id']) {
                     date_str = parsed_stat[i]._id.month + '.' + parsed_stat[i]._id.year.toString().slice(-2);
                     count_array.push(parsed_stat[i].count);
                     date_array.push(date_str);
-                } else if ( 'year' in parsed_stat[i]['_id']) {
+                } else if ('year' in parsed_stat[i]['_id']) {
                     date_str = parsed_stat[i]._id.year.toString().slice(-2);
                     count_array.push(parsed_stat[i].count);
                     date_array.push(date_str);
                 }
             }
             for (var i in parsed_list) {
-                row += '<a href="#" class="list-group-item">' + '[' + parsed_list[i].Time.$date + ']' + ' ' + '[' + parsed_list[i].UID + ']' + ' ' + '[' +parsed_list[i].Event+ ']' + '<br>';
+                row += '<a href="#" class="list-group-item">' + '[' + parsed_list[i].Time.$date + ']' + ' ' + '[' + parsed_list[i].UID + ']' + ' ' + '[' + parsed_list[i].Event + ']' + '<br>';
             }
             document.getElementById("list-group").innerHTML = row;
 
         }
-    function drawChart() {var data = new google.visualization.DataTable();
-    var rows_for_draw = [];
-      data.addColumn('string', 'Day');
-      data.addColumn('number');
-      console.log(date_array);
-      for (var i = 0; i < date_array.length; i++){
-          rows_for_draw.push([date_array[i],count_array[i]]);
-      }
-      data.addRows(rows_for_draw);
-      var options = {
-        chart: {
-          title: 'Кол-во событий за определённый интервал времени',
-        },
-        width: 700,
-        height: 500
-      };
-        var chart = new google.charts.Line(document.getElementById('myChart'));
+        function drawStuff() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string','День');
+            data.addColumn('number','Кол-во' )
+            for (var i = 0; i < date_array.length; i++) {
+                rows_for_draw.push([date_array[i], count_array[i]]);
+            }
+            data.addRows(rows_for_draw);
+            var options = {
+                title: 'Chess opening moves',
+                legend: {position: 'none'},
+                chart: {
+                    title: 'Chess opening moves',
+                    subtitle: 'popularity by percentage'
+                },
+                bars: 'vertical', // Required for Material Bar Charts.
+                axes: {
+                    x: {
+                        0: {side: 'top', label: 'Percentage'} // Top x-axis.
+                    }
+                },
+                bar: {groupWidth: "90%"},
+                width: 700,
+                height: 540
+            };
 
-      chart.draw(data, options);
-
-      }
-    drawChart();
+            var chart = new google.charts.Bar(document.getElementById('myChart'));
+            chart.draw(data, options);
+        };
+        drawStuff();
     };
 
-        if (date_from != null && date_to != null)
-            xmlhttp.open("get", "/get?date_from=" + date_from + "&date_to=" + date_to + "&event=" + event, true);
-        else
-            xmlhttp.open("get", "/get?event=" + event, true);
-        xmlhttp.send();
+    if (date_from != null && date_to != null)
+        xmlhttp.open("get", "/get?date_from=" + date_from + "&date_to=" + date_to + "&event=" + event, true);
+    else
+        xmlhttp.open("get", "/get?event=" + event, true);
+    xmlhttp.send();
 
-    }
+}
