@@ -22,15 +22,6 @@ function write_list() {
         return [date_array, end_array];
     }
 
-    function draw() {
-        new Chartist.Bar('#myChart', {
-            labels: ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'],
-            series: [20, 60, 120, 200, 180, 20, 10]
-        }, {
-            distributeSeries: true
-        });
-    }
-
     elem = getdate();
     if (elem[0] != null) {
         var date_from = elem[0][0];
@@ -40,6 +31,9 @@ function write_list() {
         var event = elem[1][0]
     }
     var xmlhttp = null;
+    var date_array = [];
+    var count_array =[];
+    var rows_for_draw =[];
     if (window.XMLHttpRequest)
         xmlhttp = new XMLHttpRequest();
     else
@@ -48,21 +42,61 @@ function write_list() {
 
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             var row = '';
-
-            var response =  JSON.parse(xmlhttp.response);
-            console.log(response)
-
-            //var response = response_list.a
-            for (var i in response) {
-                row += '<a href="#" class="list-group-item">' + '[' + response[i].Time.$date + ']' + ' ' + '[' + response[i].UID + ']' + ' ' + '[' +response[i].Event+ ']' + '<br>';
+            var r = xmlhttp.response;
+            var response =  JSON.parse(r);
+            var parsed_list = JSON.parse(response['a']);
+            var parsed_stat = JSON.parse(response['b']);
+            console.log(parsed_stat);
+            var date_str = ''
+            for (var i in parsed_stat){
+                if ( 'hour' in parsed_stat[i]['_id']) {
+                    date_str = parsed_stat[i]._id.hour + ':~:~ ' + parsed_stat[i]._id.day + '.' + parsed_stat[i]._id.month + '.' + parsed_stat[i]._id.year.toString().slice(-2);
+                    count_array.push(parsed_stat[i].count);
+                    date_array.push(date_str);
+                } else if ( 'day' in parsed_stat[i]['_id']) {
+                    date_str = parsed_stat[i]._id.day + '.' + parsed_stat[i]._id.month + '.' + parsed_stat[i]._id.year.toString().slice(-2);
+                    count_array.push(parsed_stat[i].count);
+                    date_array.push(date_str);
+                } else if ( 'month' in parsed_stat[i]['_id']) {
+                    date_str = parsed_stat[i]._id.month + '.' + parsed_stat[i]._id.year.toString().slice(-2);
+                    count_array.push(parsed_stat[i].count);
+                    date_array.push(date_str);
+                } else if ( 'year' in parsed_stat[i]['_id']) {
+                    date_str = parsed_stat[i]._id.year.toString().slice(-2);
+                    count_array.push(parsed_stat[i].count);
+                    date_array.push(date_str);
+                }
             }
-
+            for (var i in parsed_list) {
+                row += '<a href="#" class="list-group-item">' + '[' + parsed_list[i].Time.$date + ']' + ' ' + '[' + parsed_list[i].UID + ']' + ' ' + '[' +parsed_list[i].Event+ ']' + '<br>';
+            }
             document.getElementById("list-group").innerHTML = row;
 
         }
-    }
-        ;
-        draw();
+    function drawChart() {var data = new google.visualization.DataTable();
+    var rows_for_draw = [];
+      data.addColumn('string', 'Day');
+      data.addColumn('number');
+      console.log(date_array);
+      for (var i = 0; i < date_array.length; i++){
+          rows_for_draw.push([date_array[i],count_array[i]]);
+      }
+      data.addRows(rows_for_draw);
+      var options = {
+        chart: {
+          title: 'Кол-во событий за определённый интервал времени',
+        },
+        width: 700,
+        height: 500
+      };
+        var chart = new google.charts.Line(document.getElementById('myChart'));
+
+      chart.draw(data, options);
+
+      }
+    drawChart();
+    };
+
         if (date_from != null && date_to != null)
             xmlhttp.open("get", "/get?date_from=" + date_from + "&date_to=" + date_to + "&event=" + event, true);
         else
