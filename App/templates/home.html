@@ -1,6 +1,6 @@
 <html lang="ru">
 <head>
-    <link rel="stylesheet" type="text/css" href="../static/css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css"/>
     <style>
         .prokrutka {
             height: 270px; /* высота нашего блока */
@@ -32,16 +32,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Сбор статистики</title>
-    <link href="../static/css/bootstrap.css" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="../static/js/bootstrap.js"></script>
-    <script type="text/javascript" src="../static/js/js_for_home_page.js"></script>
-    <script type="text/javascript" src="../static/js/jquery-1.5.1.js"></script>
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
-    <script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
-    <script type="text/javascript" src="../static/js/loader.js"></script>
+    <link href="/static/css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/chartist.min.css">
+    <!-- FIXME  https://github.com/OSLL/mooc-lp-statistics/issues/43 -->
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.js"></script>
+    <script src="/static/js/js_for_home_page.js"></script>
+    <script src="/static/js/jquery-1.5.1.js"></script>
+    <script src="/static/js/chartist.min.js"></script>
+    <script src="/static/js/loader.js"></script>
     <script type="text/javascript">
-        google.charts.load('current', {'packages':['bar']});
+        $(document).ready(function () {
+            google.charts.load('current', {'packages':['bar']});
+
+        });
     </script>
   </head>
   <body>
