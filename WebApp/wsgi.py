@@ -8,9 +8,12 @@ https://docs.djangoproject.com/en/1.10/howto/deployment/wsgi/
 """
 
 import os
-
+import sys
+sys.path.append('/var/www/mooc-lp-statistics/')
+sys.path.append('/var/www/mooc-lp-statistics/App/')
+sys.path.append('/var/www/mooc-lp-statistics/WebApp/')
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "WebApp2.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "WebApp.settings")
 
 application = get_wsgi_application()

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import codecs
 from datetime import datetime
 
@@ -8,7 +9,10 @@ from bson.json_util import dumps, STRICT_JSON_OPTIONS
 
 def parsing():
     list_of_result_lists = []
-    file = codecs.open("App/static/txt/test_log", "r", "utf_8_sig")
+    # HACK - replace hardcode with taking path from settings
+    # https://github.com/OSLL/mooc-lp-statistics/issues/44  
+    logfile = codecs.open("/var/www/mooc-lp-statistics/App/static/txt/test_log", "r", "utf_8_sig")
+    # do not use file as a variable name (it is a module name)
 
     def razbor_stroki(input):
         list_of_result_lists = []
@@ -55,7 +59,7 @@ def parsing():
         return single_list
 
     # Построчный парсинг
-    for line in file:
+    for line in logfile:
         if not line.startswith('['):
             continue
         list_of_result_lists += [razbor_stroki(line)]
