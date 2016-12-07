@@ -2,7 +2,6 @@
 
 CATALOG='mooc-lp-statistics'
 HOSTS_STRING="127.0.0.1 mooc-lp-statistics"
-DEBUG_FILE="/var/www/geomongo/DEBUG"
 CONFIG_FILE="mooc-lp-statistics.conf"
 
 if ! grep -Fxq "$HOSTS_STRING" /etc/hosts
@@ -21,6 +20,8 @@ cp config/"$CONFIG_FILE" /etc/apache2/sites-available/
 
 
 
+cd /var/www/"$CATALOG"/
+python ./manage.py collectstatic -v0 --noinput
 
 chown -R www-data:www-data /var/www/"$CATALOG"
 
