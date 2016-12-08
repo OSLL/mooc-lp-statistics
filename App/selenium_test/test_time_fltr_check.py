@@ -1,5 +1,4 @@
 from App.selenium_test.basic_selenium_test import BasicSeleniumTest
-from selenium import webdriver
 
 
 TEST_URL = '/'
