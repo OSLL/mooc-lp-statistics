@@ -8,8 +8,9 @@ TEST_FLTR_ID2 = 'second_date'
 
 
 class TestTimeFilterOnExist(BasicSeleniumTest):
-    driver = webdriver.Chrome()
-    driver.get(TEST_URL)
-    filter1 = driver.find_element_by_id(TEST_FLTR_ID1)
-    filter2 = driver.find_element_by_id(TEST_FLTR_ID2)
+    def testTimeFilterOnExist(self):
+        driver = self.getDriver()
+        driver.get(TEST_URL)
+        filter1 = driver.find_element_by_id(TEST_FLTR_ID1)
+        filter2 = driver.find_element_by_id(TEST_FLTR_ID2)
 

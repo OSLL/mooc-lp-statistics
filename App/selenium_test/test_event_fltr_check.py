@@ -9,8 +9,9 @@ TEST_FLTR_ID3 = 'third_event'
 
 
 class TestEventFilterOnExist(BasicSeleniumTest):
-    driver = webdriver.Chrome()
-    driver.get(TEST_URL)
-    filter1 = driver.find_element_by_id(TEST_FLTR_ID1)
-    filter2 = driver.find_element_by_id(TEST_FLTR_ID2)
-    filter3 = driver.find_element_by_id(TEST_FLTR_ID3)
+    def testEventFilterOnExist(self):
+        driver = self.getDriver()
+        driver.get(TEST_URL)
+        filter1 = driver.find_element_by_id(TEST_FLTR_ID1)
+        filter2 = driver.find_element_by_id(TEST_FLTR_ID2)
+        filter3 = driver.find_element_by_id(TEST_FLTR_ID3)

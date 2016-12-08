@@ -8,7 +8,8 @@ TEST_LIST_ID = 'list-group'
 
 
 class TestEventListOnExist(BasicSeleniumTest):
-    driver = webdriver.Chrome()
-    driver.get(TEST_URL)
-    list1 = driver.find_element_by_id(TEST_LIST_ID)
+    def testEventListOnExist(self):
+        driver = self.getDriver()
+        driver.get(TEST_URL)
+        list1 = driver.find_element_by_id(TEST_LIST_ID)
 

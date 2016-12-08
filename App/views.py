@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 
-from App.another_functions import *
+import App.another_functions
 from App.models import Find_in_database
 from App.serializers import Find_in_databaseSerializer
 
@@ -28,8 +28,8 @@ def Find_in_database_list(request):
 
 
 def home(request):
-    list_of_result_lists = parsing()
-    writing_into_database(list_of_result_lists, collection)
+    list_of_result_lists = App.another_functions.parsing()
+    App.another_functions.writing_into_database(list_of_result_lists, App.another_functions.collection)
     return render(request, 'home.html')
 
 
@@ -47,5 +47,5 @@ def get(request):
     except:
         event = None
 
-    Col = dumps(pickup_from_database(event= event, date_from= date_from, date_to= date_to, interval = 'hour'))
+    Col = App.another_functions.dumps(App.another_functions.pickup_from_database(event= event, date_from= date_from, date_to= date_to, interval ='hour'))
     return render(request, 'list_view.html', {'collection': Col})
