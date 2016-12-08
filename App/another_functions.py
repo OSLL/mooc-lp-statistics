@@ -5,13 +5,16 @@ from datetime import datetime
 from pymongo import MongoClient
 from pyparsing import Word, alphas, nums, Suppress, OneOrMore, Group, ZeroOrMore
 from bson.json_util import dumps, STRICT_JSON_OPTIONS
-
+import os
 
 def parsing():
     list_of_result_lists = []
     # HACK - replace hardcode with taking path from settings
     # https://github.com/OSLL/mooc-lp-statistics/issues/44  
-    logfile = codecs.open("/var/www/mooc-lp-statistics/App/static/txt/test_log", "r", "utf_8_sig")
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    logpath = os.path.join(base_dir, 'static/txt/test_log')
+    logfile = codecs.open(logpath, "r", "utf_8_sig")
+ #   logfile = codecs.open("/var/www/mooc-lp-statistics/App/static/txt/test_log", "r", "utf_8_sig")
     # do not use file as a variable name (it is a module name)
 
     def razbor_stroki(input):
