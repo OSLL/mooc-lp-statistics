@@ -73,7 +73,6 @@ def pickup_from_database(date_from='1015-05-16 15:35:01.0', date_to='3016-05-16 
                          number=0, offset=0, interval=None):
 
     global d
-    c = None
     date_from = datetime.strptime(date_from, '%Y-%m-%d %H:%M:%S.%f')
     date_to = datetime.strptime(date_to, '%Y-%m-%d %H:%M:%S.%f')
     a = db.collect.find({"Time": {"$gte": date_from, "$lte": date_to}, "Event": event}).sort("Time").skip(offset).limit(

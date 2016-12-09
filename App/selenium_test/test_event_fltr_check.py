@@ -1,7 +1,7 @@
-from App.selenium_test.basic_selenium_test import BasicSeleniumTest
+from basic_selenium_test import BasicSeleniumTest
 
 
-TEST_URL = '/'
+TEST_URL = 'http://127.0.0.1:8000/'
 TEST_FLTR_ID1 = 'first_event'
 TEST_FLTR_ID2 = 'second_event'
 TEST_FLTR_ID3 = 'third_event'

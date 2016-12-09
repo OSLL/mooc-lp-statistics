@@ -1,27 +1,4 @@
-function write_list() {
-    function getdate() {
-        var regexp;
-        regexp = /(\d{4}\-\d{1,2})\-\d{1,2}\s\d{1,2}\:\d{1,2}\:\d{1,2}\.\d{1,6}/;
-        var first_date = document.getElementById('first_date').value;
-        var second_date = document.getElementById('second_date').value;
-        var a = document.getElementById('first_event');
-        var b = document.getElementById('second_event');
-        var c = document.getElementById('third_event');
-        var event_array = [a, b, c];
-        var end_array = [];
-        var i;
-        for (i = 0; i < event_array.length; i++) {
-            if (event_array[i].checked) {
-                end_array.push(event_array[i].nextSibling.textContent)
-            }
-        }
-        if (regexp.test(first_date) && regexp.test(second_date)) {
-            var date_array;
-            date_array = [first_date, second_date];
-        }
-        return [date_array, end_array];
-    }
-
+function write_list() {;
     elem = getdate();
     if (elem[0] != null) {
         var date_from = elem[0][0];
@@ -76,23 +53,26 @@ function write_list() {
         function drawStuff() {
             var data = new google.visualization.DataTable();
             data.addColumn('string','День');
-            data.addColumn('number','Кол-во' )
+            data.addColumn('number');
             for (var i = 0; i < date_array.length; i++) {
                 rows_for_draw.push([date_array[i], count_array[i]]);
             }
             data.addRows(rows_for_draw);
             var options = {
                 title: 'Chess opening moves',
-                legend: {position: 'none'},
+                legend: {position: 'center'},
                 chart: {
-                    title: 'Chess opening moves',
-                    subtitle: 'popularity by percentage'
+                    title: 'Количество событий за промежуток времени',
                 },
                 bars: 'vertical', // Required for Material Bar Charts.
                 axes: {
                     x: {
-                        0: {side: 'top', label: 'Percentage'} // Top x-axis.
+                        0: {side: 'bottom', label: 'Время'} // Top x-axis.
+                    },
+                    y: {
+                        0: {side: 'left', label: 'Количество событий'} // Top x-axis.
                     }
+
                 },
                 bar: {groupWidth: "90%"},
                 width: 700,
@@ -112,3 +92,26 @@ function write_list() {
     xmlhttp.send();
 
 }
+
+function getdate() {
+        var regexp;
+        regexp = /(\d{4}\-\d{1,2})\-\d{1,2}\s\d{1,2}\:\d{1,2}\:\d{1,2}\.\d{1,6}/;
+        var first_date = document.getElementById('first_date').value;
+        var second_date = document.getElementById('second_date').value;
+        var a = document.getElementById('first_event');
+        var b = document.getElementById('second_event');
+        var c = document.getElementById('third_event');
+        var event_array = [a, b, c];
+        var end_array = [];
+        var i;
+        for (i = 0; i < event_array.length; i++) {
+            if (event_array[i].checked) {
+                end_array.push(event_array[i].nextSibling.textContent)
+            }
+        }
+        if (regexp.test(first_date) && regexp.test(second_date)) {
+            var date_array;
+            date_array = [first_date, second_date];
+        }
+        return [date_array, end_array];
+    }

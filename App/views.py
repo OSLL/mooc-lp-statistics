@@ -47,5 +47,5 @@ def get(request):
     except:
         event = None
 
-    Col = App.another_functions.dumps(App.another_functions.pickup_from_database(event= event, date_from= date_from, date_to= date_to, interval ='hour'))
+    Col = App.another_functions.dumps(App.another_functions.pickup_from_database(event= event, date_from= date_from, date_to= date_to, interval ='day'))
     return render(request, 'list_view.html', {'collection': Col})

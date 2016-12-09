@@ -1,9 +1,11 @@
 import unittest
 import sys
-from App.selenium_test.basic_selenium_test import BasicSeleniumTest
-from App.selenium_test.test_event_fltr_check import TestEventFilterOnExist
-from App.selenium_test.test_event_list_check import TestEventListOnExist
-from App.selenium_test.test_time_fltr_check import TestTimeFilterOnExist
+from basic_selenium_test import BasicSeleniumTest
+
+from test_time_fltr_check import TestTimeFilterOnExist
+
+from test_event_fltr_check import TestEventFilterOnExist
+from test_event_list_check import TestEventListOnExist
 
 
 def main(host):
@@ -15,7 +17,6 @@ def main(host):
 
     returnCode = not unittest.TextTestRunner(
         verbosity=2).run(suite).wasSuccessful()
-
     BasicSeleniumTest.closeDriver()
     sys.exit(returnCode)
 
