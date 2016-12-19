@@ -54,6 +54,7 @@ function write_list() {;
             var data = new google.visualization.DataTable();
             data.addColumn('string','День');
             data.addColumn('number');
+
             for (var i = 0; i < date_array.length; i++) {
                 rows_for_draw.push([date_array[i], count_array[i]]);
             }
@@ -76,7 +77,8 @@ function write_list() {;
                 },
                 bar: {groupWidth: "90%"},
                 width: 700,
-                height: 540
+                height: 540,
+                isStacked: true
             };
 
             var chart = new google.charts.Bar(document.getElementById('myChart'));
