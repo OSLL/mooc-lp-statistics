@@ -10,7 +10,7 @@ TEST_FLTR_TO_ID = 'second_date'
 class TestButtonShowResult(BasicSeleniumTest):
     def testButtonShowResult(self):
         driver = self.getDriver()
-        driver.get(TEST_URL)
+        driver.get(self.getUrl(TEST_URL))
         ffrom = driver.find_element_by_id(TEST_FLTR_FROM_ID)
         fto = driver.find_element_by_id(TEST_FLTR_TO_ID)
         ffrom.text = '2016-05-13 15:33:01.0'
