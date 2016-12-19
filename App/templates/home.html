@@ -33,11 +33,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Сбор статистики</title>
     <link href="/static/css/bootstrap.css" rel="stylesheet">
+
     <!-- FIXME  https://github.com/OSLL/mooc-lp-statistics/issues/43 -->
     <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/moment.js"></script>
     <script src="/static/js/bootstrap.js"></script>
     <script src="/static/js/js_for_home_page.js"></script>
     <script src="/static/js/jquery-1.5.1.js"></script>
+
+
+<script type="text/javascript" src="/static/js/moment.js"></script>
+<script type="text/javascript" src="/static/js/transition.js"></script>
+<script type="text/javascript" src="/static/js/collapse.js"></script>
+<script type="text/javascript" src="/static/js/bootstrap-datetimepicker.min.js"></script>
+
     <!-- <script src="/static/js/chartist.min.js"></script> -->
     <script src="/static/js/loader.js"></script>
     <script type="text/javascript">
@@ -46,7 +55,27 @@
 
         });
     </script>
-  </head>
+    <script type="text/javascript">
+            $(function () {
+                $('#first_date').datetimepicker({
+                    format: "YYYY-M-D H:M:S.mS",
+                    autoclose: true,
+                    todayBtn: true,
+                    minuteStep: 10
+                });
+            });
+        </script>
+    <script type="text/javascript">
+            $(function () {
+                $('#second_date').datetimepicker({
+                    format: "YYYY-M-D H:M:S.mS",
+                    autoclose: true,
+                    todayBtn: true,
+                    minuteStep: 10
+                });
+            });
+    </script>
+</head>
   <body>
     <!--Div that will hold the pie chart-->
     <div id="chart_div"></div>
@@ -70,14 +99,13 @@
                 <div class="row">
                     <div class="col-md-4" align="center">Начало диапазона
                         <div class="input-group">
-                            <span class="input-group-addon" id="basic-addon1">date</span>
+
                             <input id="first_date" type="text" class="form-control" placeholder="YYYY-M-D H:M:S.mS"
                                    aria-describedby="basic-addon1" value="2016-05-13 15:33:01.0">
                         </div>
                     </div>
                     <div class="col-md-4" align="center">Конец диапазона
                         <div class="input-group">
-                            <span class="input-group-addon" id="basic-addon2">date</span>
                             <input id="second_date" type="text" class="form-control" placeholder="YYYY-M-D H:M:S.mS"
                                    aria-describedby="basic-addon1" value="2016-05-16 15:35:01.0">
                         </div>
@@ -122,8 +150,6 @@
                 <div class="row voffset2">
                     <button class="btn btn-default" href="#" role="button">type1</button>
                     <button class="btn btn-default" type="submit">type2</button>
-                    <button class="btn btn-default" type="submit">type3</button>
-                    <button class="btn btn-default" type="submit">type4</button>
                 </div>
                 <div class="row" id="myChart">
                 </div>
