@@ -399,6 +399,61 @@ Bringing machine 'default' up with 'docker' provider...
     default: Volume: /var/www/mooc-linux-programming/tests/type2/temp2:/vagrant
     default:   Port: 127.0.0.1:2201:22
     default:
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
+[2016-05-13 16:19:33.073651625+03:00][20130]: /var/www/mooc-linux-programming/status/task exists: dbca472c-10de-4c39-a758-a58f0e1a675e
     default: Container created: 553b6cb912ff1ec4
 ==> default: Starting container...
 ==> default: Waiting for machine to boot. This may take a few minutes...

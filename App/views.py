@@ -1,4 +1,5 @@
 from django.http import HttpResponse
+from django.http import QueryDict
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
@@ -43,9 +44,14 @@ def get(request):
     except:
         date_to = None
     try:
-        event = request.GET['event']
+        event = QueryDict(request.get_full_path())
     except:
         event = None
-
+    event = event.getlist('event')
+    for i in range(len(event)-1):
+        event[i] = event[i][:-28]
+    print(event)
+    results = App.another_functions.parsing()
+    App.another_functions.writing_into_database(results, App.another_functions.collection)
     Col = App.another_functions.dumps(App.another_functions.pickup_from_database(event= event, date_from= date_from, date_to= date_to, interval ='day'))
     return render(request, 'list_view.html', {'collection': Col})
