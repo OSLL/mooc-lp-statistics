@@ -1,7 +1,7 @@
 from basic_selenium_test import BasicSeleniumTest
 
 
-TEST_URL = 'http://127.0.0.1:8000/'
+TEST_URL = '/'
 TEST_BTN_ID = 'show-res'
 TEST_LST_CSS = '.prokrutka'
 TEST_FLTR_FROM_ID = 'first_date'

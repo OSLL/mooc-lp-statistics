@@ -1,7 +1,7 @@
 from basic_selenium_test import BasicSeleniumTest
 
 
-TEST_URL = 'http://127.0.0.1:8000/'
+TEST_URL = '/'
 TEST_LIST_ID = 'list-group'
 
 
