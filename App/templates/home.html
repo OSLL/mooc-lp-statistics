@@ -1,7 +1,6 @@
 <html lang="ru">
 <head>
     <link rel="stylesheet" type="text/css" href="/static/css/style.css"/>
-    <script src="https://code.jquery.com/jquery.js"></script> 
     <style>
         .prokrutka {
             height: 270px; /* высота нашего блока */
@@ -24,31 +23,6 @@
 	    font-size: 12px;
 	}
     </style>
-    <script>
-	$(function()
-	{
-	    $(document).on('click', '.btn-add', function(e)
-	    {
-		e.preventDefault();
-
-		var controlForm = $('.controls form:first'),
-		    currentEntry = $(this).parents('.entry:first'),
-		    newEntry = $(currentEntry.clone()).appendTo(controlForm);
-
-		newEntry.find('input').val('');
-		controlForm.find('.entry:not(:last) .btn-add')
-		    .removeClass('btn-add').addClass('btn-remove')
-		    .removeClass('btn-success').addClass('btn-danger')
-		    .html('<span class="glyphicon glyphicon-minus"></span>');
-	    }).on('click', '.btn-remove', function(e)
-	    {
-			$(this).parents('.entry:first').remove();
-
-			e.preventDefault();
-			return false;
-		});
-	});
-    </script>
     <script>
         function getcontent(inp) {
             $("#retn").empty();
@@ -76,14 +50,13 @@
     <script src="/static/js/js_for_home_page.js"></script>
 
 
-
-
-<script type="text/javascript" src="/static/js/transition.js"></script>
-<script type="text/javascript" src="/static/js/collapse.js"></script>
-<script type="text/javascript" src="/static/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="/static/js/transition.js"></script>
+    <script type="text/javascript" src="/static/js/collapse.js"></script>
+    <script type="text/javascript" src="/static/js/bootstrap-datetimepicker.min.js"></script>
 
     <!-- <script src="/static/js/chartist.min.js"></script> -->
     <script src="/static/js/loader.js"></script>
+    <script src="/static/js/dynamic-form-fields.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             google.charts.load("current", {packages:['corechart']});
