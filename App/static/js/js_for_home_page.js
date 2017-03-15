@@ -126,15 +126,16 @@ function getdate() {
     var first_date = document.getElementById('first_date').value;
     var second_date = document.getElementById('second_date').value;
     var end_array = [];
-    var filters_array = $('input#filterArrayId.form-control');
+    //var filters_array = $('input#filterArrayId.form-control');
+    var filters_array = $('input.get-input-from-fields');
 
     for (i = 0; i < filters_array.length; i++) {
         end_array.push(filters_array[i].value);
     }
     for (i = 0; i < end_array.length; i++){
-        alert(end_array[i]);
+        console.log("input", i, "=",  end_array[i]);
     }
-    alert(end_array.length);
+    console.log("end_array.length", end_array.length);
 
     if (regexp.test(first_date) && regexp.test(second_date)) {
         var date_array;
