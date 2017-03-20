@@ -1,4 +1,4 @@
-function write_list() {;
+function write_list() {
     elem = getdate();
     var events = [];
     if (elem[0] != null) {
@@ -121,24 +121,26 @@ function write_list() {;
 }
 
 function getdate() {
-        var regexp;
-        regexp = /(\d{4}\-\d{1,2})\-\d{1,2}\s\d{1,2}\:\d{1,2}\:\d{1,2}\.\d{1,6}/;
-        var first_date = document.getElementById('first_date').value;
-        var second_date = document.getElementById('second_date').value;
-        var a = document.getElementById('first_event');
-        var b = document.getElementById('second_event');
-        var c = document.getElementById('third_event');
-        var event_array = [a, b, c];
-        var end_array = [];
-        var i;
-        for (i = 0; i < event_array.length; i++) {
-            if (event_array[i].checked) {
-                end_array.push(event_array[i].nextSibling.textContent)
-            }
-        }
-        if (regexp.test(first_date) && regexp.test(second_date)) {
-            var date_array;
-            date_array = [first_date, second_date];
-        }
-        return [date_array, end_array];
+    var regexp;
+    regexp = /(\d{4}\-\d{1,2})\-\d{1,2}\s\d{1,2}\:\d{1,2}\:\d{1,2}\.\d{1,6}/;
+    var first_date = document.getElementById('first_date').value;
+    var second_date = document.getElementById('second_date').value;
+    var end_array = [];
+    //var filters_array = $('input#filterArrayId.form-control');
+    var filters_array = $('input.get-input-from-fields');
+
+    for (i = 0; i < filters_array.length; i++) {
+        end_array.push(filters_array[i].value);
     }
+    for (i = 0; i < end_array.length; i++){
+        console.log("input", i, "=",  end_array[i]);
+    }
+    console.log("end_array.length", end_array.length);
+
+    if (regexp.test(first_date) && regexp.test(second_date)) {
+        var date_array;
+        date_array = [first_date, second_date];
+    }
+
+    return [date_array, end_array];
+}
