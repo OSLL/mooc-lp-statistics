@@ -10,9 +10,9 @@ from test_event_plus_button import TestEventPlusButton
 def main(host):
     suite = unittest.TestSuite()
 
-   # suite.addTest(BasicSeleniumTest.parametrize(TestTimeFilterOnExist,param=host))
-   # suite.addTest(BasicSeleniumTest.parametrize(TestEventFilterOnExist, param=host))
-   # suite.addTest(BasicSeleniumTest.parametrize(TestEventListOnExist, param=host))
+    suite.addTest(BasicSeleniumTest.parametrize(TestTimeFilterOnExist,param=host))
+    suite.addTest(BasicSeleniumTest.parametrize(TestEventFilterOnExist, param=host))
+    suite.addTest(BasicSeleniumTest.parametrize(TestEventListOnExist, param=host))
     suite.addTest(BasicSeleniumTest.parametrize(TestEventPlusButton, param=host))
 
     returnCode = not unittest.TextTestRunner(
