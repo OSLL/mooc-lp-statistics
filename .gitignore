@@ -94,3 +94,6 @@ ENV/
 .idea/
 /App/__pycache__/
 /App/migrations/__pycache__/
+
+#Geckodriver
+*geckodriver

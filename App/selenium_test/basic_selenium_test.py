@@ -7,7 +7,7 @@ class BasicSeleniumTest(unittest.TestCase):
     """ TestCase classes that want to be parametrized should
         inherit from this class.
     """
-    driver = webdriver.Chrome()
+    driver = webdriver.Firefox()
 
     def __init__(self, methodName='runTest', param=None):
         super(BasicSeleniumTest, self).__init__(methodName)
