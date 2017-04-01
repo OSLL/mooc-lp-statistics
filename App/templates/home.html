@@ -87,8 +87,11 @@
     <div id="chart_div"></div>
   </body>
 </html>
-
 </head>
+<div id="popup-filter" class="alert alert-danger collapse"  data-toggle="collapse">
+    <a href="#" class="close" aria-label="close" title="close" id="close-button" onclick="$('#popup-filter').hide()">x</a>
+    Все поля фильтра обязательны для заполнения.
+</div>
 <body>
 <section id="top">
     <div class="container">
@@ -145,7 +148,7 @@
                 </div>
                 <div class="row">
                     <div class="center">
-                        <button id="show-res" onclick="write_list()" type="button " class="btn btn-success">Показать результаты
+                        <button id="show-res" onclick="fields_validation()" type="button " class="btn btn-success">Показать результаты
                         </button>
                     </div>
                     <div class="panel panel-default voffset2">

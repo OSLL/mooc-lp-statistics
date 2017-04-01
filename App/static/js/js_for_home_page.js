@@ -1,5 +1,28 @@
+function fields_validation() {
+    $('#popup-filter').hide();
+    var elem = getdate();
+    var validation = true;
+    var date = elem[0];
+    var params = elem[1];
+
+    for (i = 0; i < params.length; i++) {
+        if (params[i].length == 0) {
+           validation = false;
+        }
+    }
+    if (!date) {
+        validation = false;
+    }
+    if (validation) {
+        write_list();
+    } else {
+        $('#popup-filter').show();
+    }
+}
+
 function write_list() {
     elem = getdate();
+
     var events = [];
     if (elem[0] != null) {
         var date_from = elem[0][0];
