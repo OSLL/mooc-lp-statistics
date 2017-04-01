@@ -71,71 +71,68 @@ def parsing():
 
 
 def pickup_from_database(date_from='1015-05-16 15:35:01.0', date_to='3016-05-16 15:35:01.0', event=None,
-                         number=0, offset=0, interval=None):
+                         number=0, offset=0, interval='hour'):
     global d
     date_from = datetime.strptime(date_from, '%Y-%m-%d %H:%M:%S.%f')
     date_to = datetime.strptime(date_to, '%Y-%m-%d %H:%M:%S.%f')
     events = []
-    for elem in event:
-        elem = re.compile(elem)
-        events += [elem]
-
-    a = db.collect.find({"Time": {"$gte": date_from, "$lte": date_to}, "Event": {"$in": events}}).sort(
-        "Time").skip(offset).limit(number)
+    if event is not None:
+        for elem in event:
+            elem = re.compile(elem)
+            events += [elem]
+        to_find = {
+            "Time": {"$gte": date_from, "$lte": date_to},
+            "Event": {"$in": events}
+        }
+    else:
+        to_find = {
+            "Time": {"$gte": date_from, "$lte": date_to}
+        }
+    a = db.collect.find(to_find).sort("Time").skip(offset).limit(number)
     c = dumps(a, json_options=STRICT_JSON_OPTIONS)
 
-    length = len(list(c))
+    to_group = {
+        "year": {"$year": "$Time"},
+        "month": {"$month": "$Time"},
+        "day": {"$dayOfMonth": "$Time"},
+        "hour": {"$hour": "$Time"},
+        "Event": "$Event"
+    }
+    to_sort = {
+        "_id.hour": 1,
+        "_id.day": 1,
+        "_id.month": 1,
+        "_id.year": 1,
+    }
+    if interval == 'day':
+        del to_group["hour"]
+        del to_sort["_id.hour"]
+    if interval == 'month':
+        del to_group["hour"]
+        del to_group["day"]
+        del to_sort["_id.hour"]
+        del to_sort["_id.day"]
 
-    if length > 2:
-        fieldsForGroup = {                    #поля для группировки в aggregate
-            "year": {"$year": "$Time"},
-            "month": {"$month": "$Time"},
-            "day": {"$dayOfMonth": "$Time"},
-            "hour": {"$hour": "$Time"},
-            "Event": "$Event"
-        }
-        fieldsForSort = {                    #поля для сортировки в aggregate
-            "_id.hour": 1,
-            "_id.day": 1,
-            "_id.month": 1,
-            "_id.year": 1,
-        }
+    pipeline = [
+        {"$match":to_find},
+        {"$group": {"_id": to_group, "count": {"$sum": 1}}},
+        {"$sort": to_sort}
+    ]
+    b = db.collect.aggregate(pipeline)
+    d = dumps(b)
 
-        if interval == 'day':
-            del fieldsForGroup["hour"]
-            del fieldsForSort["_id.hour"]
-        if interval == 'month':
-            del fieldsForGroup[{"hour"}, {"day"}]
-            del fieldsForSort["_id.hour", "_id.day"]
+    for_draw = []
+    b_list = list(db.collect.aggregate(pipeline))
+    for elem in b_list:
+        date_dict = elem.get('_id')
+        date_fr = [str(date_dict.get('hour')),str(date_dict.get('day')), str(date_dict.get('month')),
+                    str(date_dict.get('year'))]
+        while (date_fr.count('None')):
+            date_fr.remove('None')
+        date_str = ".".join(date_fr)
+        single_stat = (date_str, str(elem['count']))
+        for_draw += [single_stat]
 
-        b = db.collect.aggregate([
-            { "$match": { "Event": {"$in": events}, "Time": {"$gte": date_from, "$lte": date_to} } },
-            { "$group": { "_id": fieldsForGroup, "count": {"$sum": 1} } },
-            { "$sort": fieldsForSort }
-        ])
-        d = dumps(b)
-        for_draw = []
-        for elem in b:
-            test = ""
-            for key in elem['_id']:
-                test += str(key + '.')
-            single_stat = (test, str(elem['count']))
-            for_draw += [single_stat]
-       # print(for_draw)
-#        elif interval == 'day':
- #           for elem in b:
-  #              single_stat = (
-   #                 str(elem['_id']['day']) + '.' + str(elem['_id']['month']) + '.' + str(
-    #                    elem['_id']['year']), str(elem['count']))
-     #           for_draw += [single_stat]
-
-
-      #  elif interval == 'month':
-       #     for elem in b:
-        #        single_stat = (
-         #           str(elem['_id']['month']) + '.' + str(
-          #              elem['_id']['year']), str(elem['count']))
-           #     for_draw += [single_stat]
     return {"a": c, "b": d}
 
 
@@ -160,4 +157,4 @@ db.collect.create_index("Event")
 db.collect.create_index("Time")
 
 
-pickup_from_database(event="k", interval= "hour")
+pickup_from_database(interval="month")
