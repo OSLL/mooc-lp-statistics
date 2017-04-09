@@ -122,10 +122,10 @@ function write_list() {
 
       var options =
         {title:"Количество событий за промежуток времени",
-            width:1000, height:800,
-            vAxis: {title: "Количество"}, isStacked: true,
+            width:900, height:600,
+            vAxis: {title: "Количество"},
             hAxis: {title: "Даты"}};
-      var chart = new google.visualization.ColumnChart(document.getElementById("myChart"));
+      var chart = new google.charts.Bar(document.getElementById("myChart"));
       chart.draw(data, options);
   }
 
