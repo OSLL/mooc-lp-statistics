@@ -134,11 +134,15 @@ function write_list() {
     var eventUrl ="";
     events.forEach(function (newEvent) {
         eventUrl += "&event=" + newEvent
-    })
-    if (date_from != null && date_to != null)
-        xmlhttp.open("get", "/get?date_from=" + date_from + "&date_to=" + date_to + eventUrl, true);
-    else
-        xmlhttp.open("get", "/get?event=" + event, true);
+    });
+    var params;
+    if (date_from != null && date_to != null) {
+        params = 'date_from=' + date_from + '&date_to=' + date_to + eventUrl;
+    } else {
+        params = 'event=' + event;
+    }
+    console.log('get.request = ', "/get?" + params);
+    xmlhttp.open('GET', "/get?" + params, true);
     xmlhttp.send();
 
 }

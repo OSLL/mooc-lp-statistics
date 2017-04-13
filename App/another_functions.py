@@ -131,8 +131,6 @@ def pickup_from_database(data_base = connection.local, date_from='1015-05-16 15:
     c = dumps(a, json_options=STRICT_JSON_OPTIONS)
     b = coll.aggregate(pipeline)
     d = dumps(b)
-    print(d)
-    print(coll.find().count())
 
     # for_draw = []
     # b_list = list(data_base.collect.aggregate(pipeline))
@@ -160,8 +158,3 @@ def writing_into_database(results, coll):
         for elem in results:
             entry = {"Time": elem[0], "UID": elem[1], "Event": elem[2]}
             coll.insert(entry)
-
-
-
-
-pickup_from_database(interval="month")
