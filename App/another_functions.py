@@ -97,12 +97,20 @@ def pickup_from_database(data_base = connection.local, date_from='1015-05-16 15:
         to_find = {
             "Time": {"$gte": date_from, "$lte": date_to}
         }
+    for i in events:
+        print('events = ', i)
+
+    coll = get_collect(data_base)
+    a = coll.find(to_find).sort("Time").skip(offset).limit(number)
+    c = dumps(a, json_options=STRICT_JSON_OPTIONS)
+    print('c', c)
+
     to_group = {
         "year": {"$year": "$Time"},
         "month": {"$month": "$Time"},
         "day": {"$dayOfMonth": "$Time"},
         "hour": {"$hour": "$Time"},
-        "Event": "$Event"
+        #"Event": "$Event"
     }
     to_sort = {
         "_id.hour": 1,
@@ -119,19 +127,25 @@ def pickup_from_database(data_base = connection.local, date_from='1015-05-16 15:
         del to_sort["_id.hour"]
         del to_sort["_id.day"]
 
-    pipeline = [
-        {"$match":to_find},
-        {"$group": {"_id": to_group, "count": {"$sum": 1}}},
-        {"$sort": to_sort}
-    ]
+    b = {}
+    for elem in events:
+        to_find = {
+            "Time": {"$gte": date_from, "$lte": date_to},
+            "Event": elem
+        }
+        pipeline = [
+            {"$match":to_find},
+            {"$group": {"_id": to_group, "count": {"$sum": 1}}},
+            {"$sort": to_sort}
+        ]
+        cursor = coll.aggregate(pipeline)
+        e = dumps(cursor)
+        b[elem] = e
+    print('b', b)
 
-    coll = get_collect(data_base)
 
-    a = coll.find(to_find).sort("Time").skip(offset).limit(number)
-    c = dumps(a, json_options=STRICT_JSON_OPTIONS)
-    b = coll.aggregate(pipeline)
-    d = dumps(b)
-
+    #b = coll.aggregate(pipeline)
+    #d = dumps(b)
     # for_draw = []
     # b_list = list(data_base.collect.aggregate(pipeline))
     # for elem in b_list:
@@ -144,7 +158,7 @@ def pickup_from_database(data_base = connection.local, date_from='1015-05-16 15:
     #     single_stat = (date_str, str(elem['count']))
     #     for_draw += [single_stat]
 
-    return {"a": c, "b": d}
+    return {"a": c, "b": b}
 
 
 def writing_into_database(results, coll):
@@ -158,3 +172,8 @@ def writing_into_database(results, coll):
         for elem in results:
             entry = {"Time": elem[0], "UID": elem[1], "Event": elem[2]}
             coll.insert(entry)
+
+
+pickup_from_database(event=['www', 'pdaemon'])
+#pickup_from_database(event=['www'])
+#pickup_from_database(event=['pdaemon'])
