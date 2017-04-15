@@ -127,11 +127,11 @@ def pickup_from_database(data_base = connection.local, date_from='1015-05-16 15:
         del to_sort["_id.hour"]
         del to_sort["_id.day"]
 
-    b = {}
-    for elem in events:
+    b = []
+    for elem in event:
         to_find = {
             "Time": {"$gte": date_from, "$lte": date_to},
-            "Event": elem
+            "Event": re.compile(elem)
         }
         pipeline = [
             {"$match":to_find},
@@ -139,11 +139,13 @@ def pickup_from_database(data_base = connection.local, date_from='1015-05-16 15:
             {"$sort": to_sort}
         ]
         cursor = coll.aggregate(pipeline)
-        e = dumps(cursor)
-        b[elem] = e
+        e = list(cursor)
+        f = {}
+        f[elem] = e
+        b.append(f)
     print('b', b)
-
-
+    d = dumps(b)
+    print(d)
     #b = coll.aggregate(pipeline)
     #d = dumps(b)
     # for_draw = []
@@ -158,7 +160,7 @@ def pickup_from_database(data_base = connection.local, date_from='1015-05-16 15:
     #     single_stat = (date_str, str(elem['count']))
     #     for_draw += [single_stat]
 
-    return {"a": c, "b": b}
+    return {"a": c, "b": d}
 
 
 def writing_into_database(results, coll):
@@ -173,7 +175,7 @@ def writing_into_database(results, coll):
             entry = {"Time": elem[0], "UID": elem[1], "Event": elem[2]}
             coll.insert(entry)
 
-
+#pickup_from_database(event=['adfdgf'])
 pickup_from_database(event=['www', 'pdaemon'])
 #pickup_from_database(event=['www'])
 #pickup_from_database(event=['pdaemon'])
