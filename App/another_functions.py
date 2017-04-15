@@ -97,20 +97,16 @@ def pickup_from_database(data_base = connection.local, date_from='1015-05-16 15:
         to_find = {
             "Time": {"$gte": date_from, "$lte": date_to}
         }
-    for i in events:
-        print('events = ', i)
-
     coll = get_collect(data_base)
     a = coll.find(to_find).sort("Time").skip(offset).limit(number)
     c = dumps(a, json_options=STRICT_JSON_OPTIONS)
-    print('c', c)
+    #print('c', c)
 
     to_group = {
         "year": {"$year": "$Time"},
         "month": {"$month": "$Time"},
         "day": {"$dayOfMonth": "$Time"},
         "hour": {"$hour": "$Time"},
-        #"Event": "$Event"
     }
     to_sort = {
         "_id.hour": 1,
@@ -129,6 +125,8 @@ def pickup_from_database(data_base = connection.local, date_from='1015-05-16 15:
 
     b = []
     for elem in event:
+        dict = {}
+        dict["Event"] = elem
         to_find = {
             "Time": {"$gte": date_from, "$lte": date_to},
             "Event": re.compile(elem)
@@ -139,15 +137,11 @@ def pickup_from_database(data_base = connection.local, date_from='1015-05-16 15:
             {"$sort": to_sort}
         ]
         cursor = coll.aggregate(pipeline)
-        e = list(cursor)
-        f = {}
-        f[elem] = e
-        b.append(f)
-    print('b', b)
+        dict["Result"] = list(cursor)
+        b.append(dict)
     d = dumps(b)
-    print(d)
-    #b = coll.aggregate(pipeline)
-    #d = dumps(b)
+    #print('b', d)
+
     # for_draw = []
     # b_list = list(data_base.collect.aggregate(pipeline))
     # for elem in b_list:
@@ -174,8 +168,3 @@ def writing_into_database(results, coll):
         for elem in results:
             entry = {"Time": elem[0], "UID": elem[1], "Event": elem[2]}
             coll.insert(entry)
-
-#pickup_from_database(event=['adfdgf'])
-pickup_from_database(event=['www', 'pdaemon'])
-#pickup_from_database(event=['www'])
-#pickup_from_database(event=['pdaemon'])
