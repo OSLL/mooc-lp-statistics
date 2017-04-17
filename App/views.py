@@ -30,28 +30,18 @@ def Find_in_database_list(request):
 
 def home(request):
     list_of_result_lists = App.another_functions.parsing()
-    App.another_functions.writing_into_database(list_of_result_lists, App.another_functions.collection)
+    App.another_functions.writing_into_database(list_of_result_lists, App.another_functions.get_collect())
     return render(request, 'home.html')
 
 
 def get(request):
-    try:
-        date_from = request.GET['date_from']
-    except:
-        date_from = None
-    try:
-        date_to = request.GET['date_to']
-    except:
-        date_to = None
-    try:
-        event = QueryDict(request.get_full_path())
-    except:
-        event = None
+    date_from = request.GET['date_from']
+    date_to = request.GET['date_to']
+    event = QueryDict(request.get_full_path())
     event = event.getlist('event')
-    for i in range(len(event)-1):
-        event[i] = event[i][:-28]
-    print(event)
+
     results = App.another_functions.parsing()
-    App.another_functions.writing_into_database(results, App.another_functions.collection)
+    App.another_functions.writing_into_database(results, App.another_functions.get_collect())
     Col = App.another_functions.dumps(App.another_functions.pickup_from_database(event= event, date_from= date_from, date_to= date_to, interval ='day'))
+
     return render(request, 'list_view.html', {'collection': Col})

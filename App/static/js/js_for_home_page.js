@@ -53,29 +53,38 @@ function write_list() {
             var response = JSON.parse(r);
             var parsed_list = JSON.parse(response['a']);
             var parsed_stat = JSON.parse(response['b']);
-            var date_str = ''
+            var date_str = '';
             parsed_stat.forEach(function (elem) {
-                events_array.push(elem._id.Event)
-            })
+                events_array.push(elem.Event);
+            });
             function uniqueVal(value, index, self) {
                 return self.indexOf(value) === index;
             }
-            events_array = events_array.filter(uniqueVal);
-            console.log(parsed_stat);
-            for (var i in parsed_stat) {
-                if ('hour' in parsed_stat[i]['_id']) {
-                    date_str = parsed_stat[i]._id.hour + ':~:~ ' + parsed_stat[i]._id.day + '.' + parsed_stat[i]._id.month + '.' + parsed_stat[i]._id.year.toString().slice(-2);
-                } else if ('day' in parsed_stat[i]['_id']) {
-                    date_str = parsed_stat[i]._id.day + '.' + parsed_stat[i]._id.month + '.' + parsed_stat[i]._id.year.toString().slice(-2);
-                } else if ('month' in parsed_stat[i]['_id']) {
-                    date_str = parsed_stat[i]._id.month + '.' + parsed_stat[i]._id.year.toString().slice(-2);
-                } else if ('year' in parsed_stat[i]['_id']) {
-                    date_str = parsed_stat[i]._id.year.toString().slice(-2);
+            console.log('events_array = ', events_array);
+            parsed_stat.forEach(function (elem) {
+                var event_results_array = elem.Result;
+                for (var i in event_results_array) {
+                    if ('hour' in event_results_array[i]['_id']) {
+                        date_str = event_results_array[i]._id.hour + ':~:~ ' + event_results_array[i]._id.day + '.' + event_results_array[i]._id.month + '.' + event_results_array[i]._id.year.toString().slice(-2);
+                    } else if ('day' in event_results_array[i]['_id']) {
+                        date_str = event_results_array[i]._id.day + '.' + event_results_array[i]._id.month + '.' + event_results_array[i]._id.year.toString().slice(-2);
+                    } else if ('month' in parsed_stat[i]['_id']) {
+                        date_str = event_results_array[i]._id.month + '.' + event_results_array[i]._id.year.toString().slice(-2);
+                    } else if ('year' in event_results_array[i]['_id']) {
+                        date_str = event_results_array[i]._id.year.toString().slice(-2);
+                    }
+                    date_array.push(date_str);
+                    count_date_event_array.push({
+                        "count": event_results_array[i].count,
+                        "date": date_str,
+                        "event": elem.Event
+                    });
                 }
-                date_array.push(date_str);
-                count_date_event_array.push({"count" : parsed_stat[i].count,"date": date_str, "event": parsed_stat[i]._id.Event});
-            }
-            date_array = date_array.filter(uniqueVal);
+            });
+            date_array = date_array.filter(uniqueVal).sort();
+            console.log('date_array = ', date_array);
+            console.log('count_date_event_array = ', count_date_event_array);
+
             for (var i in parsed_list) {
                 row += '<a href="#" class="list-group-item">' + '[' + parsed_list[i].Time.$date + ']' + ' ' + '[' + parsed_list[i].UID + ']' + ' ' + '[' + parsed_list[i].Event + ']' + '<br>';
             }
@@ -105,8 +114,8 @@ function write_list() {
                 label_array.push(events_array[i])
             };
             rows_for_draw[0]=label_array;
-            console.log(rows_for_draw);
-            console.log(count_array);
+     //       console.log(rows_for_draw);
+     //       console.log(count_array);
             for ( var i =0; i<date_array.length; i++){
                 var draw_elem = [];
                 draw_elem.push(date_array[i]);
@@ -117,7 +126,7 @@ function write_list() {
 
                 rows_for_draw.push(draw_elem);
             }
-            console.log(rows_for_draw);
+     //       console.log(rows_for_draw);
       var data = google.visualization.arrayToDataTable(rows_for_draw);
 
       var options =
@@ -134,11 +143,15 @@ function write_list() {
     var eventUrl ="";
     events.forEach(function (newEvent) {
         eventUrl += "&event=" + newEvent
-    })
-    if (date_from != null && date_to != null)
-        xmlhttp.open("get", "/get?date_from=" + date_from + "&date_to=" + date_to + eventUrl, true);
-    else
-        xmlhttp.open("get", "/get?event=" + event, true);
+    });
+    var params;
+    if (date_from != null && date_to != null) {
+        params = 'date_from=' + date_from + '&date_to=' + date_to + eventUrl;
+    } else {
+        params = 'event=' + event;
+    }
+    console.log('get.request = ', "/get?" + params);
+    xmlhttp.open('GET', "/get?" + params, true);
     xmlhttp.send();
 
 }

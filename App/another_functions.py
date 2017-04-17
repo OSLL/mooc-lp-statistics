@@ -8,14 +8,24 @@ from pyparsing import Word, alphas, nums, Suppress, OneOrMore, Group, ZeroOrMore
 from bson.json_util import dumps, STRICT_JSON_OPTIONS
 import os
 
+connection = MongoClient()
+
+def get_collect(data_base = connection.local):
+
+    collection = data_base.collect
+    data_base.collect.create_index("Event")
+    data_base.collect.create_index("Time")
+
+    return collection
+
 def parsing():
     list_of_result_lists = []
     # HACK - replace hardcode with taking path from settings
-    # https://github.com/OSLL/mooc-lp-statistics/issues/44  
+    # https://github.com/OSLL/mooc-lp-statistics/issues/44
     base_dir = os.path.dirname(os.path.abspath(__file__))
     logpath = os.path.join(base_dir, 'static/txt/test_log')
     logfile = codecs.open(logpath, "r", "utf_8_sig")
- #   logfile = codecs.open("/var/www/mooc-lp-statistics/App/static/txt/test_log", "r", "utf_8_sig")
+    #   logfile = codecs.open("/var/www/mooc-lp-statistics/App/static/txt/test_log", "r", "utf_8_sig")
     # do not use file as a variable name (it is a module name)
 
     def razbor_stroki(input):
@@ -69,8 +79,7 @@ def parsing():
         list_of_result_lists += [razbor_stroki(line)]
     return list_of_result_lists
 
-
-def pickup_from_database(date_from='1015-05-16 15:35:01.0', date_to='3016-05-16 15:35:01.0', event=None,
+def pickup_from_database(data_base = connection.local, date_from='1015-05-16 15:35:01.0', date_to='3016-05-16 15:35:01.0', event=None,
                          number=0, offset=0, interval='hour'):
     global d
     date_from = datetime.strptime(date_from, '%Y-%m-%d %H:%M:%S.%f')
@@ -88,15 +97,16 @@ def pickup_from_database(date_from='1015-05-16 15:35:01.0', date_to='3016-05-16 
         to_find = {
             "Time": {"$gte": date_from, "$lte": date_to}
         }
-    a = db.collect.find(to_find).sort("Time").skip(offset).limit(number)
+    coll = get_collect(data_base)
+    a = coll.find(to_find).sort("Time").skip(offset).limit(number)
     c = dumps(a, json_options=STRICT_JSON_OPTIONS)
+    #print('c', c)
 
     to_group = {
         "year": {"$year": "$Time"},
         "month": {"$month": "$Time"},
         "day": {"$dayOfMonth": "$Time"},
         "hour": {"$hour": "$Time"},
-        "Event": "$Event"
     }
     to_sort = {
         "_id.hour": 1,
@@ -113,31 +123,42 @@ def pickup_from_database(date_from='1015-05-16 15:35:01.0', date_to='3016-05-16 
         del to_sort["_id.hour"]
         del to_sort["_id.day"]
 
-    pipeline = [
-        {"$match":to_find},
-        {"$group": {"_id": to_group, "count": {"$sum": 1}}},
-        {"$sort": to_sort}
-    ]
-    b = db.collect.aggregate(pipeline)
+    b = []
+    for elem in event:
+        dict = {}
+        dict["Event"] = elem
+        to_find = {
+            "Time": {"$gte": date_from, "$lte": date_to},
+            "Event": re.compile(elem)
+        }
+        pipeline = [
+            {"$match":to_find},
+            {"$group": {"_id": to_group, "count": {"$sum": 1}}},
+            {"$sort": to_sort}
+        ]
+        cursor = coll.aggregate(pipeline)
+        dict["Result"] = list(cursor)
+        b.append(dict)
     d = dumps(b)
+    #print('b', d)
 
-    for_draw = []
-    b_list = list(db.collect.aggregate(pipeline))
-    for elem in b_list:
-        date_dict = elem.get('_id')
-        date_fr = [str(date_dict.get('hour')),str(date_dict.get('day')), str(date_dict.get('month')),
-                    str(date_dict.get('year'))]
-        while (date_fr.count('None')):
-            date_fr.remove('None')
-        date_str = ".".join(date_fr)
-        single_stat = (date_str, str(elem['count']))
-        for_draw += [single_stat]
+    # for_draw = []
+    # b_list = list(data_base.collect.aggregate(pipeline))
+    # for elem in b_list:
+    #     date_dict = elem.get('_id')
+    #     date_fr = [str(date_dict.get('hour')),str(date_dict.get('day')), str(date_dict.get('month')),
+    #                 str(date_dict.get('year'))]
+    #     while (date_fr.count('None')):
+    #         date_fr.remove('None')
+    #     date_str = ".".join(date_fr)
+    #     single_stat = (date_str, str(elem['count']))
+    #     for_draw += [single_stat]
 
     return {"a": c, "b": d}
 
 
 def writing_into_database(results, coll):
-    length = len(list(collection.find()))
+    length = len(list(coll.find()))
     if length != 0:
         for elem in results:
             if elem[0] > results[length - 1][0]:
@@ -147,14 +168,3 @@ def writing_into_database(results, coll):
         for elem in results:
             entry = {"Time": elem[0], "UID": elem[1], "Event": elem[2]}
             coll.insert(entry)
-
-
-connection = MongoClient()
-
-db = connection.local
-collection = db.collect
-db.collect.create_index("Event")
-db.collect.create_index("Time")
-
-
-pickup_from_database(interval="month")
