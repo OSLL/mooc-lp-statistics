@@ -14,9 +14,13 @@ rm -rf /var/www/"$CATALOG"
 
 mkdir /var/www/"$CATALOG"
 
-cp -r ./  /var/www/"$CATALOG"
+rsync -r --exclude='App/settings.json' ./  /var/www/"$CATALOG"
 cp config/"$CONFIG_FILE" /etc/apache2/sites-available/
 ./scripts/setup_pip_dependencies.sh
+
+if ! [ -f /var/www/"$CATALOG"/App/settings.json]; then
+cp App/settings.json /var/www/"$CATALOG"/App/settings.json
+fi
 
 
 
