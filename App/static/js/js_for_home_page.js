@@ -129,13 +129,16 @@ function write_list() {
      //       console.log(rows_for_draw);
       var data = google.visualization.arrayToDataTable(rows_for_draw);
 
-      var options =
-        {title:"Количество событий за промежуток времени",
-            width:900, height:600,
-            vAxis: {title: "Количество"},
-            hAxis: {title: "Даты"}};
+      var options = {
+        chart: {
+            title:"Количество событий за промежуток времени"
+        },
+          bars: 'vertical',
+          width:600, height:600,
+          vAxis: {title: "Количество"},
+          hAxis: {title: "Датa"}};
       var chart = new google.charts.Bar(document.getElementById("myChart"));
-      chart.draw(data, options);
+      chart.draw(data, google.charts.Bar.convertOptions(options));
   }
 
         drawChart();
