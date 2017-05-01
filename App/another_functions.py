@@ -7,6 +7,7 @@ from pymongo import MongoClient
 from pyparsing import Word, alphas, nums, Suppress, OneOrMore, Group, ZeroOrMore
 from bson.json_util import dumps, STRICT_JSON_OPTIONS
 import os
+from WebApp.settings import LOG_FILE_PATH
 
 connection = MongoClient()
 
@@ -23,7 +24,7 @@ def parsing():
     # HACK - replace hardcode with taking path from settings
     # https://github.com/OSLL/mooc-lp-statistics/issues/44
     base_dir = os.path.dirname(os.path.abspath(__file__))
-    logpath = os.path.join(base_dir, 'static/txt/test_log')
+    logpath = os.path.join(base_dir, LOG_FILE_PATH)
     logfile = codecs.open(logpath, "r", "utf_8_sig")
     #   logfile = codecs.open("/var/www/mooc-lp-statistics/App/static/txt/test_log", "r", "utf_8_sig")
     # do not use file as a variable name (it is a module name)
