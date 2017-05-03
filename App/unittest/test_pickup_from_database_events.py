@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import unittest
 import json
 from datetime import datetime
@@ -29,7 +30,6 @@ class TestPickupFromDatabaseEvents(unittest.TestCase):
         self.db1.collect.drop()
 
     def test_pickup_from_database_events(self):
-        print("!!! UNITTEST App.another_functions.pickup_from_database !!!")
         print("События в тестовой базе: 'Test_Event_1', 'Test_Event_11','Test_Event_2','Test_Event_3'" )
         events = ["Test_Event_1", "Test_Event_2"]
         print('Тестируемые события', events)
