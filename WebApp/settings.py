@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
+import json
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -109,3 +110,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'App/static/')
 
 
 STATIC_URL = '/static/'
+
+with open(os.path.join(BASE_DIR, 'App/settings.json')) as data_file:
+    settings = json.load(data_file)
+LOG_FILE_PATH = settings["log_file_path"]
