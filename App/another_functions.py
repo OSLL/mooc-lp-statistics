@@ -48,7 +48,6 @@ def parsing():
         parse_module = Group(parse_time) + Group(parse_number) + Group(parse_event)
         # Результат парсинга(
         parse_result = parse_module.parseString(input)
-        print("par", parse_result)
         # Список, содержащий результаты разбора одной строки
         single_list = []
         """
