@@ -20,5 +20,6 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [ 
     url(r'^$', views.home),
-    url('^get/$', views.get)
+    url('^get/$', views.get),
+    url(r'^update_log_in_db/$', views.update_log_in_db)
 ] + staticfiles_urlpatterns()

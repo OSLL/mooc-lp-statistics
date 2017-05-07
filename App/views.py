@@ -33,6 +33,11 @@ def home(request):
     App.another_functions.writing_into_database(list_of_result_lists, App.another_functions.get_collect())
     return render(request, 'home.html')
 
+def update_log_in_db(request):
+    list_of_result_lists = App.another_functions.parsing()
+    cnt_new_rows = len(list_of_result_lists)
+    App.another_functions.writing_into_database(list_of_result_lists, App.another_functions.get_collect())
+    return render(request, 'update_log_in_db.html', {'count_new_rows':cnt_new_rows})
 
 def get(request):
     date_from = request.GET['date_from']
