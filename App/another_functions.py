@@ -162,10 +162,12 @@ def pickup_from_database(data_base = connection.local, date_from='1015-05-16 15:
 def writing_into_database(results, coll):
     length = len(list(coll.find()))
     if length != 0:
+        last_date = coll.find()[length - 1].get("Time")
         for elem in results:
-            if elem[0] > results[length - 1][0]:
+            if elem[0] > last_date:
                 entry = {"Time": elem[0], "UID": elem[1], "Event": elem[2]}
                 coll.insert(entry)
+                last_date = elem[0]
     else:
         for elem in results:
             entry = {"Time": elem[0], "UID": elem[1], "Event": elem[2]}
