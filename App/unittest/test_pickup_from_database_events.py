@@ -30,18 +30,18 @@ class TestPickupFromDatabaseEvents(unittest.TestCase):
         self.db1.collect.drop()
 
     def test_pickup_from_database_events(self):
-        print("События в тестовой базе: 'Test_Event_1', 'Test_Event_11','Test_Event_2','Test_Event_3'" )
+        print("test_db contents: 'Test_Event_1', 'Test_Event_11','Test_Event_2','Test_Event_3'" )
         events = ["Test_Event_1", "Test_Event_2"]
-        print('Тестируемые события', events)
+        print('Testing events:', events)
         result_dict = pickup_from_database(data_base = self.db1, date_from='1015-05-16 15:35:01.0', date_to='3016-05-16 15:35:01.0', event=events)
         result_b = json.loads(result_dict["b"])
-        print("Количество событий для графика = ", len(result_b) )
+        print("Number events for the chart's legend = ", len(result_b) )
         self.assertEqual(len(result_b), 2)
 
         for elem in result_b:
             if (elem["Event"] == "Test_Event_1"):
                 qty = elem["Result"][0]["count"]
-        print("count для события 'Test_Event_1' = ", qty)
+        print("count 'Test_Event_1' = ", qty)
         self.assertEqual(qty, 2)
 
 if __name__ == '__main__':
