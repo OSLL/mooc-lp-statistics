@@ -1,3 +1,38 @@
+var nextUrl = "";
+
+function setFields() {
+    var full_url = window.location.href;
+    var uri = new URI(full_url);
+    console.log(uri.search());
+
+    var result = URI.parseQuery(uri.search());
+
+    if (result["date_from"]) {
+        document.getElementById('first_date').value = result["date_from"];
+    }
+
+    if (result["date_to"]) {
+        document.getElementById('second_date').value = result["date_to"];
+    }
+
+    var events = result["event"];
+
+    if (events) {
+        if (events instanceof Array) {
+            for (var i = 1; i < events.length; i++) {
+                $('.glyphicon-plus').click();
+            }
+
+            for (var i = 0; i < events.length; i++) {
+                document.getElementsByName('fields[]')[i].value = events[i];
+            }
+
+        } else {
+            document.getElementsByName('fields[]')[0].value = events;
+        }
+    }
+}
+
 function fields_validation() {
     $('#popup-filter').hide();
     var elem = getdate();
@@ -18,6 +53,7 @@ function fields_validation() {
     } else {
         $('#popup-filter').show();
     }
+    window.history.pushState(null, null, nextUrl);
 }
 
 function write_list() {
@@ -153,6 +189,7 @@ function write_list() {
     } else {
         params = 'event=' + event;
     }
+    nextUrl = '?' + params;
     console.log('get.request = ', "/get?" + params);
     xmlhttp.open('GET', "/get?" + params, true);
     xmlhttp.send();
