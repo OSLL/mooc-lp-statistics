@@ -1,6 +1,6 @@
 var nextUrl = "";
 
-function setFields() {
+function setFieldsAndClick() {
     var full_url = window.location.href;
     var uri = new URI(full_url);
     console.log(uri.search());
@@ -30,6 +30,10 @@ function setFields() {
         } else {
             document.getElementsByName('fields[]')[0].value = events;
         }
+    }
+
+    if (result["date_from"] && result["date_to"] && events) {
+        document.getElementById('show-res').click();
     }
 }
 
