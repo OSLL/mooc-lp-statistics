@@ -7,6 +7,7 @@ from test_event_fltr_check import TestEventFilterOnExist
 from test_event_list_check import TestEventListOnExist
 from test_event_plus_button import TestEventPlusButton
 from test_empty_field_alert import TestEmptyFieldAlert
+from test_several_input_forms import TestSeveralInputForms
 
 def main(host):
     suite = unittest.TestSuite()
@@ -16,6 +17,7 @@ def main(host):
     suite.addTest(BasicSeleniumTest.parametrize(TestEventListOnExist, param=host))
     suite.addTest(BasicSeleniumTest.parametrize(TestEventPlusButton, param=host))
     suite.addTest(BasicSeleniumTest.parametrize(TestEmptyFieldAlert, param=host))
+    suite.addTest(BasicSeleniumTest.parametrize(TestSeveralInputForms, param=host))
 
     returnCode = not unittest.TextTestRunner(
         verbosity=2).run(suite).wasSuccessful()
