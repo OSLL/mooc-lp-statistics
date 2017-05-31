@@ -62,6 +62,16 @@
         $(document).ready(function () {
             google.charts.load("current", {packages:['bar']});
             setFieldsAndClick();
+            /* К тегу body привязывается функция, которая мониторит нажатие клавиши (keydown) во всех полях input на странице.
+            И если происходит нажатие вызывает функцию function(e). Далее проверка - это enter или нет (e.keyCode === 13) и клик
+             по баттону. Следущая строчка смена фокуса, чтобы мигающий курсив ниже переместился
+             ( $(e.target).parent().next().find('.get-input-from-fields').focus();)*/
+            $('body').delegate("input", "keydown", function(e) {
+                if (e.keyCode === 13) {
+                    $('.btn-add').click();
+                    $(e.target).parent().next().find('.get-input-from-fields').focus();
+                }
+            });
 
         });
     </script>
@@ -124,7 +134,7 @@
                     <div class="col-md-6" align="center">Наименование
                         <div class="control-group" id="fields">
                             <div class="controls">
-                                <form role="form" autocomplete="off">
+                                <form role="form" autocomplete="off" onsubmit="return false">
                                 <div class="entry input-group col-md-12">
                                     <input class="form-control get-input-from-fields" name="fields[]" type="text" placeholder="Type something" />
                                     <span class="input-group-btn">
