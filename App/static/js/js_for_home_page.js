@@ -121,7 +121,7 @@ function write_list() {
                     });
                 }
             });
-            date_array = date_array.filter(uniqueVal).sort();
+            date_array = date_array.filter(uniqueVal);
             console.log('date_array = ', date_array);
             console.log('count_date_event_array = ', count_date_event_array);
 
