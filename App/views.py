@@ -44,9 +44,10 @@ def get(request):
     date_to = request.GET['date_to']
     event = QueryDict(request.get_full_path())
     event = event.getlist('event')
+    interval = request.GET['selected_interval']
 
     results = App.another_functions.parsing()
     App.another_functions.writing_into_database(results, App.another_functions.get_collect())
-    Col = App.another_functions.dumps(App.another_functions.pickup_from_database(event= event, date_from= date_from, date_to= date_to, interval ='day'))
+    Col = App.another_functions.dumps(App.another_functions.pickup_from_database(event= event, date_from= date_from, date_to= date_to, interval = interval))
 
     return render(request, 'list_view.html', {'collection': Col})
