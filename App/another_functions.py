@@ -94,7 +94,13 @@ def pickup_from_database(data_base = connection.local, date_from='1015-05-16 15:
         del to_group["day"]
         del to_sort["_id.hour"]
         del to_sort["_id.day"]
-
+    if interval == 'year':
+        del to_group["hour"]
+        del to_group["day"]
+        del to_group["month"]
+        del to_sort["_id.hour"]
+        del to_sort["_id.day"]
+        del to_sort["_id.month"]
     b = []
     for elem in event:
         dict = {}
@@ -112,7 +118,8 @@ def pickup_from_database(data_base = connection.local, date_from='1015-05-16 15:
         dict["Result"] = list(cursor)
         b.append(dict)
     d = dumps(b)
-    #print('b', d)
+ #   print('b', d)
 
     return {"a": c, "b": d}
 
+#pickup_from_database(date_from='1015-05-16 15:35:01.0', date_to='3016-05-16 15:35:01.0', event=['pdaemon'],interval='year')

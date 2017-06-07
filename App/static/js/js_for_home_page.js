@@ -32,7 +32,18 @@ function setFieldsAndClick() {
         }
     }
 
-    if (result["date_from"] && result["date_to"] && events) {
+    var interval = result["selected_interval"];
+
+    if (interval) {
+        var set_intervals = document.getElementById('selected_interval')
+        for (var i = 0; i < set_intervals.options.length; i++ ) {
+            if (set_intervals.options[i].value == interval) {
+                set_intervals.options[i].selected = "true";
+            }
+        }
+    }
+
+    if (result["date_from"] && result["date_to"] && events && interval) {
         document.getElementById('show-res').click();
     }
 }
@@ -73,6 +84,7 @@ function write_list() {
             events.push(item);
         })
     }
+    var selected_interval = elem[2];
     var xmlhttp = null;
     var date_array = [];
     var count_array = [];
@@ -108,10 +120,10 @@ function write_list() {
                         date_str = event_results_array[i]._id.hour + ':~:~ ' + event_results_array[i]._id.day + '.' + event_results_array[i]._id.month + '.' + event_results_array[i]._id.year.toString().slice(-2);
                     } else if ('day' in event_results_array[i]['_id']) {
                         date_str = event_results_array[i]._id.day + '.' + event_results_array[i]._id.month + '.' + event_results_array[i]._id.year.toString().slice(-2);
-                    } else if ('month' in parsed_stat[i]['_id']) {
+                    } else if ('month' in event_results_array[i]['_id']) {
                         date_str = event_results_array[i]._id.month + '.' + event_results_array[i]._id.year.toString().slice(-2);
                     } else if ('year' in event_results_array[i]['_id']) {
-                        date_str = event_results_array[i]._id.year.toString().slice(-2);
+                        date_str = event_results_array[i]._id.year.toString();
                     }
                     date_array.push(date_str);
                     count_date_event_array.push({
@@ -189,7 +201,7 @@ function write_list() {
     });
     var params;
     if (date_from != null && date_to != null) {
-        params = 'date_from=' + date_from + '&date_to=' + date_to + eventUrl;
+        params = 'date_from=' + date_from + '&date_to=' + date_to + eventUrl + '&selected_interval=' + selected_interval;
     } else {
         params = 'event=' + event;
     }
@@ -221,6 +233,6 @@ function getdate() {
         var date_array;
         date_array = [first_date, second_date];
     }
-
-    return [date_array, end_array];
+    var selected_interval = document.getElementById("selected_interval").value;
+    return [date_array, end_array, selected_interval];
 }

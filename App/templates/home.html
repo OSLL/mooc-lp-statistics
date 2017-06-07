@@ -111,38 +111,46 @@
             <div class="col-md-6 text-left" style="'...'">
                 <div class="row">
                     <div class="col-md-6 text-right">
-                        <h3 align="center"> Фильтр времени </h3>
-                    </div>
-                    <div class="col-md-6">
-                        <h3 align="center"> Фильтр событий </h3>
+                        <h3 align="center"> Параметры </h3>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-3" align="center">Начало диапазона
+                    <div class="col-md-3" align="left">Начало диапазона:
                         <div class="input-group">
-
                             <input id="first_date" type="text" class="form-control" placeholder="YYYY-M-D H:M:S.mS"
                                    aria-describedby="basic-addon1" value="2016-05-13 15:33:01.0">
                         </div>
                     </div>
-                    <div class="col-md-3" align="center">Конец диапазона
+                    <div class="col-md-3" align="left">Конец диапазона:
                         <div class="input-group">
                             <input id="second_date" type="text" class="form-control" placeholder="YYYY-M-D H:M:S.mS"
                                    aria-describedby="basic-addon1" value="2016-05-16 15:35:01.0">
                         </div>
                     </div>
-                    <div class="col-md-6" align="center">Наименование
+                    <div class="col-md-3" align="left">Шаг:
+                        <div class="left">
+                            <select id="selected_interval">
+                                <option value="hour">Час</option>
+                                <option value="day">День</option>
+                                <option value="month">Месяц</option>
+                                <option value="year">Год</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6" align="left">События:
                         <div class="control-group" id="fields">
                             <div class="controls">
                                 <form role="form" autocomplete="off" onsubmit="return false">
-                                <div class="entry input-group col-md-12">
-                                    <input class="form-control get-input-from-fields" name="fields[]" type="text" placeholder="Type something" />
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-success btn-add" type="button">
-                                            <span class="glyphicon glyphicon-plus"></span>
-                                        </button>
-                                    </span>
-                                </div>
+                                    <div class="entry input-group col-md-12">
+                                        <input class="form-control get-input-from-fields" name="fields[]" type="text" placeholder="Type something" />
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-success btn-add" type="button">
+                                                <span class="glyphicon glyphicon-plus"></span>
+                                            </button>
+                                        </span>
+                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -170,7 +178,6 @@
                         График
                     </h3>
                 </div>
-
                 <div class="row" id="myChart">
                 </div>
             </div>
