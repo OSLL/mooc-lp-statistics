@@ -47,8 +47,8 @@
     <script src="/static/js/jquery.min.js"></script>
     <script src="/static/js/moment.js"></script>
     <script src="/static/js/bootstrap.js"></script>
+    <script src="/static/js/spin.js"></script>
     <script src="/static/js/js_for_home_page.js"></script>
-
 
     <script type="text/javascript" src="/static/js/transition.js"></script>
     <script type="text/javascript" src="/static/js/collapse.js"></script>
@@ -58,41 +58,6 @@
     <script src="/static/js/loader.js"></script>
     <script src="/static/js/dynamic-form-fields.js"></script>
     <script src="/static/js/URI.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            google.charts.load("current", {packages:['bar']});
-            setFieldsAndClick();
-            /* К тегу body привязывается функция, которая мониторит нажатие клавиши (keydown) во всех полях input на странице.
-            И если происходит нажатие вызывает функцию function(e). Далее проверка - это enter или нет (e.keyCode === 13) и клик
-             по баттону. Следущая строчка смена фокуса, чтобы мигающий курсив ниже переместился
-             ( $(e.target).parent().next().find('.get-input-from-fields').focus();)*/
-            $('body').delegate("input", "keydown", function(e) {
-                if (e.keyCode === 13) {
-                    $('.btn-add').click();
-                    $(e.target).parent().next().find('.get-input-from-fields').focus();
-                }
-            });
-
-        });
-    </script>
-    <script type="text/javascript">
-            $(function () {
-                $('#first_date').datetimepicker({
-                    format: "YYYY-M-D H:M:S.mS"
-
-
-                });
-            });
-        </script>
-    <script type="text/javascript">
-            $(function () {
-                $('#second_date').datetimepicker({
-                    format: "YYYY-M-D H:M:S.mS"
-
-
-                });
-            });
-    </script>
 </head>
 <body>
     <div id="popup-filter" class="alert alert-danger collapse"  data-toggle="collapse">
@@ -154,7 +119,7 @@
                     </div>
                     <div class="row">
                         <div class="center">
-                            <button id="show-res" onclick="fields_validation()" type="button " class="btn btn-success">Показать результаты
+                            <button id="show-res" onclick="processingData()" type="button " class="btn btn-success">Показать результаты
                             </button>
                         </div>
                         <div class="panel panel-default voffset2">
@@ -191,7 +156,7 @@
                     </ul>
                     <div class="tab-content">
                         <div id="tab1" class="tab-pane fade in active">
-                            <div class="col" id="myChart"></div>
+                            <div class="col" id="myChart" style="width:600px; height:600px"></div>
                         </div>
                         <div id="tab2" class="tab-pane fade">
                             <h3>Pie Chart</h3>

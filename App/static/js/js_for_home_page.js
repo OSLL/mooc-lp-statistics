@@ -1,4 +1,28 @@
-var nextUrl = "";
+$(document).ready(function () {
+    google.charts.load("current", {packages:['bar']});
+    setFieldsAndClick();
+    /* К тегу body привязывается функция, которая мониторит нажатие клавиши (keydown) во всех полях input на странице.
+     И если происходит нажатие вызывает функцию function(e). Далее проверка - это enter или нет (e.keyCode === 13) и клик
+     по баттону. Следущая строчка смена фокуса, чтобы мигающий курсив ниже переместился
+     ( $(e.target).parent().next().find('.get-input-from-fields').focus();)*/
+    $('body').delegate("input", "keydown", function(e) {
+        if (e.keyCode === 13) {
+            $('.btn-add').click();
+            $(e.target).parent().next().find('.get-input-from-fields').focus();
+        }
+    });
+
+});
+$(function () {
+    $('#first_date').datetimepicker({
+        format: "YYYY-M-D H:M:S.mS"
+    });
+});
+$(function () {
+    $('#second_date').datetimepicker({
+        format: "YYYY-M-D H:M:S.mS"
+    });
+});
 
 function setFieldsAndClick() {
     var full_url = window.location.href;
@@ -48,153 +72,35 @@ function setFieldsAndClick() {
     }
 }
 
-function fields_validation() {
+function fields_validation(elem) {
     $('#popup-filter').hide();
-    var elem = getdate();
     var validation = true;
-    var date = elem[0];
-    var params = elem[1];
+    var date_filter = elem[0];
+    if (date_filter.length == 0) {
+        validation = false;
+    }
 
+    var params = elem[1];
     for (i = 0; i < params.length; i++) {
         if (params[i].length == 0) {
            validation = false;
         }
     }
-    if (!date) {
-        validation = false;
-    }
-    if (validation) {
-        write_list();
-    } else {
-        $('#popup-filter').show();
-    }
-    window.history.pushState(null, null, nextUrl);
+    return validation;
 }
 
-function write_list() {
-    elem = getdate();
-
-    var events = [];
-    if (elem[0] != null) {
-        var date_from = elem[0][0];
-        var date_to = elem[0][1]
+function getUrlParams(data_from_filter) {
+    if (data_from_filter[0] != null) {
+        var date_from = data_from_filter[0][0];
+        var date_to = data_from_filter[0][1]
     }
-    if (elem[1] != null) {
-        elem[1].forEach(function (item) {
+    var events = [];
+    if (data_from_filter[1] != null) {
+        data_from_filter[1].forEach(function (item) {
             events.push(item);
         })
     }
-    var selected_interval = elem[2];
-    var xmlhttp = null;
-    var date_array = [];
-    var count_array = [];
-    var count_date_event_array = [];
-    var rows_for_draw = [0];
-    var events_array = [];
-    var label_array =[];
-    if (window.XMLHttpRequest)
-        xmlhttp = new XMLHttpRequest();
-    else
-        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-
-    xmlhttp.onreadystatechange = function () {
-
-        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-            var row = '';
-            var r = xmlhttp.response;
-            var response = JSON.parse(r);
-            var parsed_list = JSON.parse(response['a']);
-            var parsed_stat = JSON.parse(response['b']);
-            var date_str = '';
-            parsed_stat.forEach(function (elem) {
-                events_array.push(elem.Event);
-            });
-            function uniqueVal(value, index, self) {
-                return self.indexOf(value) === index;
-            }
-            console.log('events_array = ', events_array);
-            parsed_stat.forEach(function (elem) {
-                var event_results_array = elem.Result;
-                for (var i in event_results_array) {
-                    if ('hour' in event_results_array[i]['_id']) {
-                        date_str = event_results_array[i]._id.hour + ':~:~ ' + event_results_array[i]._id.day + '.' + event_results_array[i]._id.month + '.' + event_results_array[i]._id.year.toString().slice(-2);
-                    } else if ('day' in event_results_array[i]['_id']) {
-                        date_str = event_results_array[i]._id.day + '.' + event_results_array[i]._id.month + '.' + event_results_array[i]._id.year.toString().slice(-2);
-                    } else if ('month' in event_results_array[i]['_id']) {
-                        date_str = event_results_array[i]._id.month + '.' + event_results_array[i]._id.year.toString().slice(-2);
-                    } else if ('year' in event_results_array[i]['_id']) {
-                        date_str = event_results_array[i]._id.year.toString();
-                    }
-                    date_array.push(date_str);
-                    count_date_event_array.push({
-                        "count": event_results_array[i].count,
-                        "date": date_str,
-                        "event": elem.Event
-                    });
-                }
-            });
-            date_array = date_array.filter(uniqueVal);
-            console.log('date_array = ', date_array);
-            console.log('count_date_event_array = ', count_date_event_array);
-
-            for (var i in parsed_list) {
-                row += '<a href="#" class="list-group-item">' + '[' + parsed_list[i].Time.$date + ']' + ' ' + '[' + parsed_list[i].UID + ']' + ' ' + '[' + parsed_list[i].Event + ']' + '<br>';
-            }
-            document.getElementById("list-group").innerHTML = row;
-
-        }
-        function drawChart() {
-            for (var i = 0; i < date_array.length; i++) {
-                count_array.push([]);
-                for (var j = 0; j < events_array.length; j++) {
-                    count_array[i].push(0);
-                }
-            };
-            for ( var i = 0; i < count_date_event_array.length;i++){
-                for ( var j = 0; j < date_array.length; j++){
-                    if ( count_date_event_array[i].date == date_array[j]){
-                        for (var k = 0;k < events_array.length;k++){
-                            if (count_date_event_array[i].event == events_array[k]){
-                                count_array[j][k] = count_array[j][k] + count_date_event_array[i].count
-                            }
-                        }
-                    }
-                }
-            };
-            label_array=["Event"];
-            for (var i=0;i<events_array.length;i++){
-                label_array.push(events_array[i])
-            };
-            rows_for_draw[0]=label_array;
-     //       console.log(rows_for_draw);
-     //       console.log(count_array);
-            for ( var i =0; i<date_array.length; i++){
-                var draw_elem = [];
-                draw_elem.push(date_array[i]);
-                for (var j=0; j< events_array.length;j++){
-                    var number = count_array[i][j];
-                    draw_elem.push(number);
-                }
-
-                rows_for_draw.push(draw_elem);
-            }
-     //       console.log(rows_for_draw);
-      var data = google.visualization.arrayToDataTable(rows_for_draw);
-
-      var options = {
-        chart: {
-            title:"Количество событий за промежуток времени"
-        },
-          bars: 'vertical',
-          width:600, height:600,
-          vAxis: {title: "Количество"},
-          hAxis: {title: "Датa"}};
-      var chart = new google.charts.Bar(document.getElementById("myChart"));
-      chart.draw(data, google.charts.Bar.convertOptions(options));
-  }
-
-        drawChart();
-    };
+    var selected_interval = data_from_filter[2];
     var eventUrl ="";
     events.forEach(function (newEvent) {
         eventUrl += "&event=" + newEvent
@@ -205,14 +111,155 @@ function write_list() {
     } else {
         params = 'event=' + event;
     }
-    nextUrl = '?' + params;
-    console.log('get.request = ', "/get?" + params);
-    xmlhttp.open('GET', "/get?" + params, true);
-    xmlhttp.send();
-
+    return params;
 }
 
-function getdate() {
+function showSpin() {
+    var opts = {
+          lines: 12             // The number of lines to draw
+        , length: 7             // The length of each line
+        , width: 4              // The line thickness
+        , radius: 10            // The radius of the inner circle
+        , scale: 1.0            // Scales overall size of the spinner
+        , corners: 1            // Roundness (0..1)
+        , color: '#a2a2a2'         // #rgb or #rrggbb
+        , opacity: 1/4          // Opacity of the lines
+        , rotate: 0             // Rotation offset
+        , direction: 1          // 1: clockwise, -1: counterclockwise
+        , speed: 1              // Rounds per second
+        , trail: 100            // Afterglow percentage
+        , fps: 20               // Frames per second when using setTimeout()
+        , zIndex: 2e9           // Use a high z-index by default
+        , className: 'spinner'  // CSS class to assign to the element
+        , top: '50%'            // center vertically
+        , left: '50%'           // center horizontally
+        , shadow: false         // Whether to render a shadow
+        , hwaccel: false        // Whether to use hardware acceleration (might be buggy)
+        , position: 'absolute'  // Element positioning
+    };
+    var target = document.getElementById('myChart');
+    var spinner = new Spinner(opts).spin(target)
+}
+
+function processingData() {
+    var data_from_filter = getData();
+    if (fields_validation(data_from_filter) == false) {
+        $('#popup-filter').show();
+        return;
+    }
+    var params = getUrlParams(data_from_filter);
+    var newRequestUrl = "/get?" + params;
+    var nextUrl = '?' + params;
+
+    window.history.pushState(null, null, nextUrl);
+    showSpin();
+
+    $.get(newRequestUrl, function (html) {
+        parseResponseAndDraw(html);
+    });
+}
+function parseResponseAndDraw(html) {
+    var date_array = [];
+    var count_array = [];
+    var count_date_event_array = [];
+    var rows_for_draw = [0];
+    var events_array = [];
+    var label_array =[];
+    var row = '';
+    var response = JSON.parse(html);
+    var parsed_list = JSON.parse(response['a']);
+    var parsed_stat = JSON.parse(response['b']);
+    var date_str = '';
+    parsed_stat.forEach(function (elem) {
+        events_array.push(elem.Event);
+    });
+    function uniqueVal(value, index, self) {
+        return self.indexOf(value) === index;
+    }
+    console.log('events_array = ', events_array);
+    parsed_stat.forEach(function (elem) {
+        var event_results_array = elem.Result;
+        for (var i in event_results_array) {
+            if ('hour' in event_results_array[i]['_id']) {
+                date_str = event_results_array[i]._id.hour + ':~:~ ' + event_results_array[i]._id.day + '.' + event_results_array[i]._id.month + '.' + event_results_array[i]._id.year.toString().slice(-2);
+            } else if ('day' in event_results_array[i]['_id']) {
+                date_str = event_results_array[i]._id.day + '.' + event_results_array[i]._id.month + '.' + event_results_array[i]._id.year.toString().slice(-2);
+            } else if ('month' in event_results_array[i]['_id']) {
+                date_str = event_results_array[i]._id.month + '.' + event_results_array[i]._id.year.toString().slice(-2);
+            } else if ('year' in event_results_array[i]['_id']) {
+                date_str = event_results_array[i]._id.year.toString();
+            }
+            date_array.push(date_str);
+            count_date_event_array.push({
+                "count": event_results_array[i].count,
+                "date": date_str,
+                "event": elem.Event
+            });
+        }
+    });
+    date_array = date_array.filter(uniqueVal);
+    console.log('date_array = ', date_array);
+    console.log('count_date_event_array = ', count_date_event_array);
+
+    for (var i in parsed_list) {
+        row += '<a href="#" class="list-group-item">' + '[' + parsed_list[i].Time.$date + ']' + ' ' + '[' + parsed_list[i].UID + ']' + ' ' + '[' + parsed_list[i].Event + ']' + '<br>';
+    }
+    document.getElementById("list-group").innerHTML = row;
+
+    function drawChart() {
+        for (var i = 0; i < date_array.length; i++) {
+            count_array.push([]);
+            for (var j = 0; j < events_array.length; j++) {
+                count_array[i].push(0);
+            }
+        };
+        for ( var i = 0; i < count_date_event_array.length;i++){
+            for ( var j = 0; j < date_array.length; j++){
+                if ( count_date_event_array[i].date == date_array[j]){
+                    for (var k = 0;k < events_array.length;k++){
+                        if (count_date_event_array[i].event == events_array[k]){
+                            count_array[j][k] = count_array[j][k] + count_date_event_array[i].count
+                        }
+                    }
+                }
+            }
+        };
+        label_array=["Event"];
+        for (var i=0;i<events_array.length;i++){
+            label_array.push(events_array[i])
+        };
+        rows_for_draw[0]=label_array;
+     //       console.log(rows_for_draw);
+     //       console.log(count_array);
+        for ( var i =0; i<date_array.length; i++){
+            var draw_elem = [];
+            draw_elem.push(date_array[i]);
+            for (var j=0; j< events_array.length;j++){
+                var number = count_array[i][j];
+                draw_elem.push(number);
+            }
+
+            rows_for_draw.push(draw_elem);
+        }
+     //       console.log(rows_for_draw);
+        var data = google.visualization.arrayToDataTable(rows_for_draw);
+
+        var options = {
+            chart: {
+                title:"Количество событий за промежуток времени"
+            },
+            bars: 'vertical',
+            width:600, height:600,
+            vAxis: {title: "Количество"},
+            hAxis: {title: "Датa"}};
+        var chart = new google.charts.Bar(document.getElementById("myChart"));
+        chart.draw(data, google.charts.Bar.convertOptions(options));
+    }
+
+    drawChart();
+};
+
+function getData() {
     var regexp;
     regexp = /(\d{4}\-\d{1,2})\-\d{1,2}\s\d{1,2}\:\d{1,2}\:\d{1,2}\.\d{1,6}/;
     var first_date = document.getElementById('first_date').value;
