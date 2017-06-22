@@ -76,10 +76,9 @@ function fields_validation(elem) {
     $('#popup-filter').hide();
     var validation = true;
     var date_filter = elem[0];
-    if (date_filter.length == 0) {
+    if (date_filter == null) {
         validation = false;
     }
-
     var params = elem[1];
     for (i = 0; i < params.length; i++) {
         if (params[i].length == 0) {
