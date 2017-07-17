@@ -122,4 +122,13 @@ def pickup_from_database(data_base = connection.local, date_from='1015-05-16 15:
 
     return {"a": c, "b": d}
 
+def getLogRecordSet(date_time, number, data_base = connection.local):
+    to_find = {
+       "Time": datetime.strptime(date_time, '%Y-%m-%dT%H:%M:%S.%fZ'),
+       "UID": str(number)
+    }
+    coll = get_collect(data_base)
+    record_set = coll.find(to_find)
+    return dumps(record_set, json_options=STRICT_JSON_OPTIONS)
+
 #pickup_from_database(date_from='1015-05-16 15:35:01.0', date_to='3016-05-16 15:35:01.0', event=['pdaemon'],interval='year')
