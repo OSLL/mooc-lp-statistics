@@ -122,4 +122,21 @@ def pickup_from_database(data_base = connection.local, date_from='1015-05-16 15:
 
     return {"a": c, "b": d}
 
+def getLastDBUpdateDate(data_base = connection.local):
+    if (data_base.update_date.count() != 0):
+        last_date = data_base.update_date.find_one()
+        return last_date['update_date']
+    return 0
+
+def saveLastDBUpdateDate(data_base = connection.local):
+    coll = get_collect(data_base)
+    size_db = len(list(coll.find()))
+    last_date = coll.find()[size_db - 1].get("Time")
+    current_date = last_date.strftime('%Y-%m-%d %H:%M:%S.%f')
+    if (data_base.update_date.count() != 0):
+        data_base.update_date.update({}, {"$set": {"update_date": current_date} })
+        #data_base.update_date.find()
+    else:
+        data_base.update_date.insert({"update_date":current_date})
+
 #pickup_from_database(date_from='1015-05-16 15:35:01.0', date_to='3016-05-16 15:35:01.0', event=['pdaemon'],interval='year')
