@@ -51,3 +51,7 @@ def get(request):
     Col = App.another_functions.dumps(App.another_functions.pickup_from_database(event= event, date_from= date_from, date_to= date_to, interval = interval))
 
     return render(request, 'list_view.html', {'collection': Col})
+
+def get_log_entry(request):
+    #return render(request, 'get_log_entry.html', {'record_set' : record_set})
+    return HttpResponse("There must be a record from logfile.")
