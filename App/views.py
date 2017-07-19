@@ -53,5 +53,8 @@ def get(request):
     return render(request, 'list_view.html', {'collection': Col})
 
 def get_log_entry(request):
+    date_time = request.GET['datetime']
+    number = request.GET['number']
+    record_set = App.another_functions.getLogRecordSet(date_time, number)
     #return render(request, 'get_log_entry.html', {'record_set' : record_set})
-    return HttpResponse("There must be a record from logfile.")
+    return HttpResponse(record_set)
