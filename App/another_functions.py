@@ -122,6 +122,10 @@ def pickup_from_database(data_base = connection.local, date_from='1015-05-16 15:
 
     return {"a": c, "b": d}
 
+def updateLogInDb():
+    list_of_result_lists = parsing()
+    writing_into_database(list_of_result_lists, get_collect())
+
 def getLogRecordSet(date_time, number, data_base = connection.local):
     to_find = {
        "Time": datetime.strptime(date_time, '%Y-%m-%dT%H:%M:%S.%fZ'),
