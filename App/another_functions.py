@@ -139,4 +139,17 @@ def saveLastDBUpdateDate(data_base = connection.local):
     else:
         data_base.update_date.insert({"update_date":current_date})
 
+def updateLogInDb():
+    list_of_result_lists = parsing()
+    writing_into_database(list_of_result_lists, get_collect())
+
+def getLogRecordSet(date_time, number, data_base = connection.local):
+    to_find = {
+       "Time": datetime.strptime(date_time, '%Y-%m-%dT%H:%M:%S.%fZ'),
+       "UID": str(number)
+    }
+    coll = get_collect(data_base)
+    record_set = coll.find(to_find)
+    return dumps(record_set, json_options=STRICT_JSON_OPTIONS)
+
 #pickup_from_database(date_from='1015-05-16 15:35:01.0', date_to='3016-05-16 15:35:01.0', event=['pdaemon'],interval='year')

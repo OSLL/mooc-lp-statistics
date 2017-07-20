@@ -172,7 +172,10 @@ function getListOfLogs(html) {
     var row = '';
     var parsed_list = parseServerResponse(html)[0];
     for (var i in parsed_list) {
-        row += '<a href="#" class="list-group-item">' + '[' + parsed_list[i].Time.$date + ']' + ' ' + '[' + parsed_list[i].UID + ']' + ' ' + '[' + parsed_list[i].Event + ']' + '<br>';
+        var _date_time = parsed_list[i].Time.$date;
+        var _UID = parsed_list[i].UID;
+        var _event = parsed_list[i].Event;
+        row += '<a target="_blank" href="/get_log_entry/?datetime=' + _date_time + '&number=' + _UID + ' " class="list-group-item">' + '[' + _date_time + ']' + ' ' + '[' + _UID + ']' + ' ' + '[' + _event + ']' + '<br>';
     }
     document.getElementById("list-group").innerHTML = row;
 }
