@@ -31,13 +31,18 @@ def Find_in_database_list(request):
 def home(request):
     list_of_result_lists = App.another_functions.parsing()
     App.another_functions.writing_into_database(list_of_result_lists, App.another_functions.get_collect())
-    return render(request, 'home.html')
+    update_date = App.another_functions.getLastDBUpdateDate()
+    return render(request, 'home.html', {'update_date': update_date})
 
 def update_log_in_db(request):
     list_of_result_lists = App.another_functions.parsing()
     cnt_new_rows = len(list_of_result_lists)
     App.another_functions.writing_into_database(list_of_result_lists, App.another_functions.get_collect())
-    return render(request, 'update_log_in_db.html', {'count_new_rows':cnt_new_rows})
+
+    App.another_functions.saveLastDBUpdateDate()
+    update_date = App.another_functions.getLastDBUpdateDate()
+    return render(request, 'update_log_in_db.html', {'count_new_rows':cnt_new_rows, 'update_date': update_date})
+
 
 def get(request):
     date_from = request.GET['date_from']
