@@ -21,5 +21,6 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 urlpatterns = [ 
     url(r'^$', views.home),
     url('^get/$', views.get),
-    url(r'^update_log_in_db/$', views.update_log_in_db)
+    url(r'^update_log_in_db/$', views.update_log_in_db),
+    url(r'^get_log_entry/$', views.get_log_entry)
 ] + staticfiles_urlpatterns()
