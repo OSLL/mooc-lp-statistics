@@ -146,6 +146,7 @@ def updateLogInDb():
 
 def getLogRecordSet(log_id, data_base = connection.local):
     record_set = data_base.collect.find({"_id": ObjectId(log_id)})
-    return dumps(record_set, json_options=STRICT_JSON_OPTIONS)
+    #return dumps(record_set, json_options=STRICT_JSON_OPTIONS)
+    return record_set
 
 #pickup_from_database(date_from='1015-05-16 15:35:01.0', date_to='3016-05-16 15:35:01.0', event=['pdaemon'],interval='year')

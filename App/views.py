@@ -60,5 +60,7 @@ def get(request):
 def get_log_entry(request):
     log_id = request.GET['id']
     record_set = App.another_functions.getLogRecordSet(log_id)
-    #return render(request, 'get_log_entry.html', {'record_set' : record_set})
-    return HttpResponse(record_set)
+    rec_time = record_set[0]["Time"].strftime('%Y-%m-%d %H:%M:%S.%f')
+    rec_event = record_set[0]["Event"]
+    return render(request, 'get_log_entry.html', {'record_time' : rec_time, 'record_event' : rec_event})
+    #return HttpResponse(record_set[0]["Time"])
