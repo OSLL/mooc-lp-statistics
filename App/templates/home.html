@@ -69,11 +69,8 @@
     <section id="top">
         <div class="container-fluid">
           <div class="row" align="right">
-              <button onclick="updateDB();this.disabled=true; " type="button " class="btn btn-success" disabled="{{update_button_disabled}}" style="margin:10 10 10 10" >Обновить базу данных
+              <button onclick="updateDB();this.disabled=true; " type="button " class="btn btn-success" {{update_button_disabled}} style="margin:10 10 10 10" >Обновить базу данных
           </div>
-            <div class="col-md-6" align="left">
-                update_required: <p id="update_date">{{update_button_disabled}}</p>
-            </div>
           </div>
                 <div class="col-md-6 text-left" style="'...'">
                     <div class="row">

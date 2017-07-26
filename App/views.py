@@ -29,8 +29,8 @@ def Find_in_database_list(request):
 
 
 def home(request):
-    #list_of_result_lists = App.another_functions.parsing()
-    #App.another_functions.writing_into_database(list_of_result_lists, App.another_functions.get_collect())
+    list_of_result_lists = App.another_functions.parsing()
+    App.another_functions.writing_into_database(list_of_result_lists, App.another_functions.get_collect())
     update_button_disabled = "disabled"
     if (App.another_functions.isActiveButton()):
         update_button_disabled = ""
