@@ -68,7 +68,10 @@
     <div id="chart_div"></div>
     <section id="top">
         <div class="container-fluid">
-          <!--  <div class="row">-->
+          <div class="row" align="right">
+              <button onclick="updateDB();this.disabled=true; " type="button " class="btn btn-success" {{update_button_disabled}} style="margin:10 10 10 10" >Обновить базу данных
+          </div>
+          </div>
                 <div class="col-md-6 text-left" style="'...'">
                     <div class="row">
                         <div class="col-md-6 text-right">
@@ -130,20 +133,6 @@
                         <div class="prokrutka">
                             <div id="list-group">
                             </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6" align="right">
-                            <h3 align="center"> Настройки базы данных: </h3>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6" align="left">
-                            Дата последнего лога в БД: <p id="update_date">{{update_date}}</p>
-                        </div>
-                        <div class="col-md-6 right">
-                            <button onclick="updateDB()" type="button " class="btn btn-success">Обновить базу данных
-                            </button>
                         </div>
                     </div>
                 </div>

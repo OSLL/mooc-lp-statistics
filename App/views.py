@@ -31,17 +31,18 @@ def Find_in_database_list(request):
 def home(request):
     list_of_result_lists = App.another_functions.parsing()
     App.another_functions.writing_into_database(list_of_result_lists, App.another_functions.get_collect())
-    update_date = App.another_functions.getLastDBUpdateDate()
-    return render(request, 'home.html', {'update_date': update_date})
+    update_button_disabled = "disabled"
+    if (App.another_functions.isActiveButton()):
+        update_button_disabled = ""
+    return render(request, 'home.html', {'update_button_disabled': update_button_disabled})
 
 def update_log_in_db(request):
     list_of_result_lists = App.another_functions.parsing()
     cnt_new_rows = len(list_of_result_lists)
     App.another_functions.writing_into_database(list_of_result_lists, App.another_functions.get_collect())
 
-    App.another_functions.saveLastDBUpdateDate()
-    update_date = App.another_functions.getLastDBUpdateDate()
-    return render(request, 'update_log_in_db.html', {'count_new_rows':cnt_new_rows, 'update_date': update_date})
+    last_date_in_db = App.another_functions.getLastDateInDb()
+    return render(request, 'update_log_in_db.html', {'count_new_rows':cnt_new_rows, 'update_date': last_date_in_db})
 
 
 def get(request):

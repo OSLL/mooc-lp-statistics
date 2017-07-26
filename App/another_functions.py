@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import codecs
 from datetime import datetime
+import os.path, time
 
 import re
 from pymongo import MongoClient
@@ -123,22 +124,12 @@ def pickup_from_database(data_base = connection.local, date_from='1015-05-16 15:
 
     return {"a": c, "b": d}
 
-def getLastDBUpdateDate(data_base = connection.local):
-    if (data_base.update_date.count() != 0):
-        last_date = data_base.update_date.find_one()
-        return last_date['update_date']
-    return 0
-
-def saveLastDBUpdateDate(data_base = connection.local):
+def getLastDateInDb(data_base = connection.local):
     coll = get_collect(data_base)
-    size_db = len(list(coll.find()))
-    last_date = coll.find()[size_db - 1].get("Time")
-    current_date = last_date.strftime('%Y-%m-%d %H:%M:%S.%f')
-    if (data_base.update_date.count() != 0):
-        data_base.update_date.update({}, {"$set": {"update_date": current_date} })
-        #data_base.update_date.find()
-    else:
-        data_base.update_date.insert({"update_date":current_date})
+    last_record = list(coll.find().sort([("_id",-1)]).limit(1))
+    last_date = last_record[0]["Time"].strftime('%Y-%m-%d %H:%M:%S')
+    #print('last_date = ', last_date)
+    return last_date
 
 def updateLogInDb():
     list_of_result_lists = parsing()
@@ -149,4 +140,21 @@ def getLogRecordSet(log_id, data_base = connection.local):
     #return dumps(record_set, json_options=STRICT_JSON_OPTIONS)
     return record_set
 
+def isActiveButton():
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    logpath = os.path.join(base_dir, LOG_FILE_PATH)
+
+    last_modified_file_date = int(os.path.getmtime(logpath))
+    last_date_in_db = int(time.mktime(time.strptime(getLastDateInDb(), '%Y-%m-%d %H:%M:%S')))
+
+    print("last_modified_file_date = ", last_modified_file_date)
+    print("last_date_in_db = ", last_date_in_db)
+    print("last_modified_file_date2 =", datetime.fromtimestamp(last_modified_file_date))
+    print("last_date_in_db2 =", datetime.fromtimestamp(last_date_in_db))
+
+    if (last_date_in_db < last_modified_file_date):
+        return True
+    return False
+
+print("active = ", isActiveButton())
 #pickup_from_database(date_from='1015-05-16 15:35:01.0', date_to='3016-05-16 15:35:01.0', event=['pdaemon'],interval='year')
