@@ -41,8 +41,9 @@ def parsing():
 def writing_into_database(results, coll):
     size_db = len(list(coll.find()))
     if (size_db != 0):
-        last_date = coll.find()[size_db - 1].get("Time")
-    if (size_db == 0 or last_date < results[0][0]):
+        last_date_in_db = coll.find()[size_db - 1].get("Time")
+    first_log_date = datetime.strptime(str(results[0][0])[:-3], '%Y-%m-%d %H:%M:%S.%f')
+    if (size_db == 0 or last_date_in_db < first_log_date):
         for elem in results:
             entry = {"Time": elem[0], "UID": elem[1], "Event": elem[2]}
             coll.insert(entry)
@@ -125,10 +126,11 @@ def pickup_from_database(data_base = connection.local, date_from='1015-05-16 15:
     return {"a": c, "b": d}
 
 def getLastDateInDb(data_base = connection.local):
+    last_date = str(datetime.strptime('2000-01-01 00:00:00', '%Y-%m-%d %H:%M:%S'))
     coll = get_collect(data_base)
-    last_record = list(coll.find().sort([("_id",-1)]).limit(1))
-    last_date = last_record[0]["Time"].strftime('%Y-%m-%d %H:%M:%S')
-    #print('last_date = ', last_date)
+    if (len(list(coll.find()))):
+        last_record = list(coll.find().sort([("_id",-1)]).limit(1))
+        last_date = last_record[0]["Time"].strftime('%Y-%m-%d %H:%M:%S')
     return last_date
 
 def updateLogInDb():
@@ -147,14 +149,15 @@ def isActiveButton():
     last_modified_file_date = int(os.path.getmtime(logpath))
     last_date_in_db = int(time.mktime(time.strptime(getLastDateInDb(), '%Y-%m-%d %H:%M:%S')))
 
-    print("last_modified_file_date = ", last_modified_file_date)
-    print("last_date_in_db = ", last_date_in_db)
-    print("last_modified_file_date2 =", datetime.fromtimestamp(last_modified_file_date))
-    print("last_date_in_db2 =", datetime.fromtimestamp(last_date_in_db))
+#    print("last_modified_file_date = ", last_modified_file_date)
+#    print("last_date_in_db = ", last_date_in_db)
+#    print("last_modified_file_date2 =", datetime.fromtimestamp(last_modified_file_date))
+#    print("last_date_in_db2 =", datetime.fromtimestamp(last_date_in_db))
 
     if (last_date_in_db < last_modified_file_date):
         return True
     return False
 
-print("active = ", isActiveButton())
+#print("active = ", isActiveButton())
 #pickup_from_database(date_from='1015-05-16 15:35:01.0', date_to='3016-05-16 15:35:01.0', event=['pdaemon'],interval='year')
+#print(getLastDateInDb())
