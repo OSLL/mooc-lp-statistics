@@ -29,20 +29,17 @@ def Find_in_database_list(request):
 
 
 def home(request):
-    list_of_result_lists = App.another_functions.parsing()
-    App.another_functions.writing_into_database(list_of_result_lists, App.another_functions.get_collect())
+#    list_of_result_lists = App.another_functions.parsing()
+#    App.another_functions.writing_into_database(list_of_result_lists, App.another_functions.get_collect())
     update_button_disabled = "disabled"
     if (App.another_functions.isActiveButton()):
         update_button_disabled = ""
     return render(request, 'home.html', {'update_button_disabled': update_button_disabled})
 
 def update_log_in_db(request):
-    list_of_result_lists = App.another_functions.parsing()
-    cnt_new_rows = len(list_of_result_lists)
-    App.another_functions.writing_into_database(list_of_result_lists, App.another_functions.get_collect())
-
+    App.another_functions.updateLogInDb()
     last_date_in_db = App.another_functions.getLastDateInDb()
-    return render(request, 'update_log_in_db.html', {'count_new_rows':cnt_new_rows, 'update_date': last_date_in_db})
+    return render(request, 'update_log_in_db.html', {'last_date_in_db': last_date_in_db})
 
 
 def get(request):
@@ -52,8 +49,8 @@ def get(request):
     event = event.getlist('event')
     interval = request.GET['selected_interval']
 
-    results = App.another_functions.parsing()
-    App.another_functions.writing_into_database(results, App.another_functions.get_collect())
+   # results = App.another_functions.parsing()
+   # App.another_functions.writing_into_database(results, App.another_functions.get_collect())
     Col = App.another_functions.dumps(App.another_functions.pickup_from_database(event= event, date_from= date_from, date_to= date_to, interval = interval))
 
     return render(request, 'list_view.html', {'collection': Col})
