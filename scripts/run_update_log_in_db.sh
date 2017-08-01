@@ -1,3 +1,3 @@
 #!/bin/sh
 
-python manage.py updatedb
+/usr/bin/python /var/www/mooc-lp-statistics/manage.py updatedb
