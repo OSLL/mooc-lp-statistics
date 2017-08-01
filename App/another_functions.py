@@ -136,6 +136,7 @@ def pickup_from_database(data_base = connection.local, date_from='1015-05-16 15:
 def updateLogInDb():
     list_of_result_lists = parsing()
     writing_into_database(list_of_result_lists, get_collect())
+    setDateFileModified()
 
 def getLogRecordSet(log_id, data_base = connection.local):
     record_set = data_base.collect.find({"_id": ObjectId(log_id)})

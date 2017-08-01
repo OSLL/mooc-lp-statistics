@@ -40,7 +40,6 @@ def home(request):
 
 def update_log_in_db(request):
     App.another_functions.updateLogInDb()
-    App.another_functions.setDateFileModified()
     prev_modified_date = App.another_functions.getPrevDateFileModifiedinFormat()
     return render(request, 'update_log_in_db.html', {'prev_modified_date': prev_modified_date})
 
