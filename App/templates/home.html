@@ -68,10 +68,17 @@
     <div id="chart_div"></div>
     <section id="top">
         <div class="container-fluid">
-          <div class="row" align="right">
-              <button onclick="updateDB();this.disabled=true; " type="button " class="btn btn-success" {{update_button_disabled}} style="margin:10 10 10 10" >Обновить базу данных
+ <!--         <div class="row">
+              <div style="float: right">
+                  Обработан лог-файл от {{prev_modified_date}} Текущий лог-файл от {{cur_modified_date }}
+              </div>
+          </div> -->
+          <div class="row">
+              <div style="float: right">
+                  <button onclick="updateDB();this.disabled=true; " type="button " class="btn btn-success" {{update_button_disabled}} style="margin:10 10 10 10" >Обновить базу данных
+              </div>
           </div>
-          </div>
+        </div>
                 <div class="col-md-6 text-left" style="'...'">
                     <div class="row">
                         <div class="col-md-6 text-right">

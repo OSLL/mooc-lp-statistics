@@ -125,17 +125,18 @@ def pickup_from_database(data_base = connection.local, date_from='1015-05-16 15:
 
     return {"a": c, "b": d}
 
-def getLastDateInDb(data_base = connection.local):
-    last_date = str(datetime.strptime('2000-01-01 00:00:00', '%Y-%m-%d %H:%M:%S'))
-    coll = get_collect(data_base)
-    if (len(list(coll.find()))):
-        last_record = list(coll.find().sort([("_id",-1)]).limit(1))
-        last_date = last_record[0]["Time"].strftime('%Y-%m-%d %H:%M:%S')
-    return last_date
+#def getLastDateInDb(data_base = connection.local):
+#    last_date = str(datetime.strptime('2000-01-01 00:00:00', '%Y-%m-%d %H:%M:%S'))
+#    coll = get_collect(data_base)
+#    if (len(list(coll.find()))):
+#        last_record = list(coll.find().sort([("_id",-1)]).limit(1))
+#        last_date = last_record[0]["Time"].strftime('%Y-%m-%d %H:%M:%S')
+#    return last_date
 
 def updateLogInDb():
     list_of_result_lists = parsing()
     writing_into_database(list_of_result_lists, get_collect())
+    setDateFileModified()
 
 def getLogRecordSet(log_id, data_base = connection.local):
     record_set = data_base.collect.find({"_id": ObjectId(log_id)})
@@ -143,21 +144,33 @@ def getLogRecordSet(log_id, data_base = connection.local):
     return record_set
 
 def isActiveButton():
-    base_dir = os.path.dirname(os.path.abspath(__file__))
-    logpath = os.path.join(base_dir, LOG_FILE_PATH)
-
-    last_modified_file_date = int(os.path.getmtime(logpath))
-    last_date_in_db = int(time.mktime(time.strptime(getLastDateInDb(), '%Y-%m-%d %H:%M:%S')))
-
-#    print("last_modified_file_date = ", last_modified_file_date)
-#    print("last_date_in_db = ", last_date_in_db)
-#    print("last_modified_file_date2 =", datetime.fromtimestamp(last_modified_file_date))
-#    print("last_date_in_db2 =", datetime.fromtimestamp(last_date_in_db))
-
-    if (last_date_in_db < last_modified_file_date):
+    if (getPrevDateFileModified() < getCurDateFileModified()):
         return True
     return False
 
-#print("active = ", isActiveButton())
-#pickup_from_database(date_from='1015-05-16 15:35:01.0', date_to='3016-05-16 15:35:01.0', event=['pdaemon'],interval='year')
-#print(getLastDateInDb())
+def getPrevDateFileModified(data_base = connection.local):
+    if (data_base.date_logfile.count() != 0):
+        last_date = data_base.date_logfile.find_one()
+        return last_date['int_date_modified']
+    return 0
+
+def setDateFileModified(data_base = connection.local):
+    cur_date_modified = getCurDateFileModified()
+
+    if (data_base.date_logfile.count() != 0):
+        data_base.date_logfile.update({}, {"$set": {"int_date_modified": cur_date_modified} })
+    else:
+        data_base.date_logfile.insert({"int_date_modified":cur_date_modified})
+
+def getCurDateFileModified():
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    logpath = os.path.join(base_dir, LOG_FILE_PATH)
+
+    #last_modified_file_date = int(os.path.getmtime(logpath))
+    return int(os.path.getmtime(logpath))
+
+def getPrevDateFileModifiedinFormat():
+    return datetime.fromtimestamp(getPrevDateFileModified())
+
+def getCurDateFileModifiedFormat():
+    return datetime.fromtimestamp(getCurDateFileModified())
