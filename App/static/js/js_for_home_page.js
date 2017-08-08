@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    google.charts.load("current", {packages:['bar']});
+    google.charts.load("current", {packages:['corechart']});
     setFieldsAndClick();
     /* К тегу body привязывается функция, которая мониторит нажатие клавиши (keydown) во всех полях input на странице.
      И если происходит нажатие вызывает функцию function(e). Далее проверка - это enter или нет (e.keyCode === 13) и клик
@@ -260,23 +260,48 @@ function createTableForColumnChart(parsed_stat) {
     return rows_for_draw;
 }
 
+function createTableForPieChart(parsed_stat) {
+    var result = [];
+    result.push(['Event','Count']);
+
+    for (var i = 0; i < parsed_stat.length; i++) {
+        var eventName = parsed_stat[i].Event;
+        var sum = 0;
+
+        for (var j = 0; j < parsed_stat[i].Result.length; j++) {
+            sum += parsed_stat[i].Result[j].count;
+        }
+        result.push([eventName, sum]);
+    }
+    return result;
+}
+
 function drawColumnChart(parsed_stat) {
     var data = google.visualization.arrayToDataTable(createTableForColumnChart(parsed_stat));
     var options = {
-        chart: {
-            title:"Количество событий за промежуток времени"
-        },
-        bars: 'vertical',
+        title:"Количество событий за период",
         width:600, height:600,
         vAxis: {title: "Количество"},
-        hAxis: {title: "Датa"}};
-    var chart = new google.charts.Bar(document.getElementById("myChart"));
-    chart.draw(data, google.charts.Bar.convertOptions(options));
+        hAxis: {title: "Датa"}
+    };
+    var chart = new google.visualization.ColumnChart(document.getElementById("columnChart"));
+    chart.draw(data, options);
+}
+
+function drawPieChart(parsed_stat) {
+    var data = google.visualization.arrayToDataTable(createTableForPieChart(parsed_stat));
+    var options = {
+        title: "Долевое соотношение событий за период",
+        width: 600, height: 600
+    };
+    var chart = new google.visualization.PieChart(document.getElementById("pieChart"));
+    chart.draw(data, options);
 }
 
 function getGraphStat(html) {
     var parsed_stat = parseServerResponse(html)[1];
     drawColumnChart(parsed_stat);
+    drawPieChart(parsed_stat);
 }
 
 function getData() {
