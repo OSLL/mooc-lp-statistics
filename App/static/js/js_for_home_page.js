@@ -1,4 +1,5 @@
-$(document).ready(function () {
+//$(document).ready(function () {
+$(window).on( "load", function () {
     google.charts.load("current", {packages:['corechart']});
     setFieldsAndClick();
     /* К тегу body привязывается функция, которая мониторит нажатие клавиши (keydown) во всех полях input на странице.
