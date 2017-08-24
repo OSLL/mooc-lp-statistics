@@ -277,15 +277,21 @@ function createTableForPieChart(parsed_stat) {
 }
 
 function drawColumnChart(parsed_stat) {
-    var data = google.visualization.arrayToDataTable(createTableForColumnChart(parsed_stat));
-    var options = {
-        title:"Количество событий за период",
-        width:600, height:600,
-        vAxis: {title: "Количество"},
-        hAxis: {title: "Датa"}
-    };
-    var chart = new google.visualization.ColumnChart(document.getElementById("columnChart"));
-    chart.draw(data, options);
+    var table = createTableForColumnChart(parsed_stat);
+    if (table.length > 1) {
+        var data = google.visualization.arrayToDataTable(createTableForColumnChart(parsed_stat));
+        var options = {
+            title: "Количество событий за период",
+            width: 600, height: 600,
+            vAxis: {title: "Количество"},
+            hAxis: {title: "Датa"}
+        };
+        var chart = new google.visualization.ColumnChart(document.getElementById("columnChart"));
+        chart.draw(data, options);
+    } else {
+        infologDataIsNull();
+    }
+
 }
 
 function drawPieChart(parsed_stat) {
@@ -298,6 +304,9 @@ function drawPieChart(parsed_stat) {
     chart.draw(data, options);
 }
 
+function infologDataIsNull() {
+    return document.getElementById("columnChart").innerHTML = '<h4>По заданным параметрам поиска данные отсутствуют</h4>'
+}
 function getGraphStat(html) {
     var parsed_stat = parseServerResponse(html)[1];
     drawColumnChart(parsed_stat);
