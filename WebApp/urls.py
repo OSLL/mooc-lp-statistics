@@ -16,11 +16,13 @@ Including another URLconf
 from django.conf.urls import url
 from App import views
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.contrib import admin
 
 
 urlpatterns = [ 
     url(r'^$', views.home),
-    url('^get/$', views.get),
+    url(r'^get/$', views.get),
     url(r'^update_log_in_db/$', views.update_log_in_db),
-    url(r'^get_log_entry/$', views.get_log_entry)
+    url(r'^get_log_entry/$', views.get_log_entry),
+    url(r'^admin/$', admin.site.urls)
 ] + staticfiles_urlpatterns()

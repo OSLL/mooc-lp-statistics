@@ -4,6 +4,13 @@ CATALOG='mooc-lp-statistics'
 HOSTS_STRING="127.0.0.1 mooc-lp-statistics"
 CONFIG_FILE="mooc-lp-statistics.conf"
 SETTINGS_JSON=false
+DJANGO_USER_NAME = 'admin'
+
+echo "Enter username for django superuser"
+read django_user_name
+
+python manage.py migrate
+python manage.py createsuperuser --username ${django_user_name}
 
 if ! grep -Fxq "$HOSTS_STRING" /etc/hosts
 then

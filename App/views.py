@@ -8,6 +8,9 @@ import App.another_functions
 from App.models import Find_in_database
 from App.serializers import Find_in_databaseSerializer
 
+from django.contrib.admin.views.decorators import staff_member_required
+#from django.contrib.auth.decorators import login_required
+
 
 class JSONResponse(HttpResponse):
     """
@@ -20,14 +23,14 @@ class JSONResponse(HttpResponse):
         super(JSONResponse, self).__init__(content, **kwargs)
 
 
-@csrf_exempt
-def Find_in_database_list(request):
-    if request.method == 'GET':
-        snippets = Find_in_database.objects.all()
-        serializer = Find_in_databaseSerializer(snippets, many=True)
-        return JSONResponse(serializer.data)
+#@csrf_exempt
+#def Find_in_database_list(request):
+#    if request.method == 'GET':
+#        snippets = Find_in_database.objects.all()
+#        serializer = Find_in_databaseSerializer(snippets, many=True)
+#        return JSONResponse(serializer.data)
 
-
+@staff_member_required
 def home(request):
 #    list_of_result_lists = App.another_functions.parsing()
 #    App.another_functions.writing_into_database(list_of_result_lists, App.another_functions.get_collect())
@@ -38,12 +41,13 @@ def home(request):
         update_button_disabled = ""
     return render(request, 'home.html', {'update_button_disabled': update_button_disabled, 'prev_modified_date': prev_modified_date, 'cur_modified_date': cur_modified_date})
 
+@staff_member_required
 def update_log_in_db(request):
     App.another_functions.updateLogInDb()
     prev_modified_date = App.another_functions.getPrevDateFileModifiedinFormat()
     return render(request, 'update_log_in_db.html', {'prev_modified_date': prev_modified_date})
 
-
+@staff_member_required
 def get(request):
     date_from = request.GET['date_from']
     date_to = request.GET['date_to']
@@ -57,6 +61,7 @@ def get(request):
 
     return render(request, 'list_view.html', {'collection': Col})
 
+@staff_member_required
 def get_log_entry(request):
     log_id = request.GET['id']
     record_set = App.another_functions.getLogRecordSet(log_id)
