@@ -39,7 +39,8 @@ def parsing():
     return list_of_result_lists
 
 def writing_into_database(results, coll):
-    size_db = len(list(coll.find()))
+    #size_db = len(list(coll.find()))
+    size_db = coll.find().count
     if (size_db != 0):
         last_date_in_db = coll.find()[size_db - 1].get("Time")
     first_log_date = datetime.strptime(str(results[0][0])[:-3], '%Y-%m-%d %H:%M:%S.%f')
