@@ -4,13 +4,12 @@ CATALOG='mooc-lp-statistics'
 HOSTS_STRING="127.0.0.1 mooc-lp-statistics"
 CONFIG_FILE="mooc-lp-statistics.conf"
 SETTINGS_JSON=false
-DJANGO_USER_NAME = 'admin'
+DJANGO_USER_NAME="admin"
+DJANGO_USER_EMAIL='admin@mooclpstatistics.ru'
 
-echo "Enter username for django superuser"
-read django_user_name
-
-python manage.py migrate
-python manage.py createsuperuser --username ${django_user_name}
+#####################---ENTER YOUR PASSWORD HERE---#####################
+PASSWORD=""
+########################################################################
 
 if ! grep -Fxq "$HOSTS_STRING" /etc/hosts
 then
@@ -41,6 +40,14 @@ cd /var/www/"$CATALOG"/
 python ./manage.py collectstatic -v0 --noinput
 
 chown -R www-data:www-data /var/www/"$CATALOG"
+
+if [ -z "$PASSWORD" ]
+then
+	PASSWORD=`date +%s | sha256sum | base64 | head -c 32`
+fi
+
+/usr/bin/python /var/www/mooc-lp-statistics/manage.py migrate
+/usr/bin/python /var/www/mooc-lp-statistics/manage.py createadminuser --login=${DJANGO_USER_NAME} --email=${DJANGO_USER_EMAIL} --password=${PASSWORD}
 
 a2ensite $CONFIG_FILE
 
