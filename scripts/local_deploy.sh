@@ -7,8 +7,7 @@ SETTINGS_JSON=false
 DJANGO_USER_NAME="admin"
 DJANGO_USER_EMAIL='admin@mooclpstatistics.ru'
 
-#####################---ENTER YOUR PASSWORD HERE---#####################
-PASSWORD=""
+PASSWORD="$1" # <- means take first script argument
 ########################################################################
 
 if ! grep -Fxq "$HOSTS_STRING" /etc/hosts
@@ -44,6 +43,7 @@ chown -R www-data:www-data /var/www/"$CATALOG"
 if [ -z "$PASSWORD" ]
 then
 	PASSWORD=`date +%s | sha256sum | base64 | head -c 32`
+        echo "Generated PASSWORD ${PASSWORD}"
 fi
 
 /usr/bin/python /var/www/mooc-lp-statistics/manage.py migrate
