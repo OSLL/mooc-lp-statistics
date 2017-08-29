@@ -45,7 +45,7 @@ cd /var/www/"$CATALOG"/
 python ./manage.py collectstatic -v0 --noinput
 python ./manage.py migrate
 
-if [ "$DB_ADMIN"=="true" ]
+if [ "$DB_ADMIN" == "true" ]
 then
     mv /var/tmp/db.sqlite3 /var/www/"$CATALOG"
 fi
