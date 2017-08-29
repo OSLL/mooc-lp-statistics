@@ -10,6 +10,15 @@ DJANGO_USER_EMAIL='admin@mooclpstatistics.ru'
 PASSWORD="$1" # <- means take first script argument
 ########################################################################
 
+if [ -z "$PASSWORD" ]
+then
+	PASSWORD=`date +%s | sha256sum | base64 | head -c 32`
+        echo "Generated PASSWORD ${PASSWORD}"
+fi
+
+python manage.py migrate
+python manage.py createadminuser --login=${DJANGO_USER_NAME} --email=${DJANGO_USER_EMAIL} --password=${PASSWORD}
+
 if ! grep -Fxq "$HOSTS_STRING" /etc/hosts
 then
 	echo "$HOSTS_STRING" >> /etc/hosts
@@ -39,15 +48,6 @@ cd /var/www/"$CATALOG"/
 python ./manage.py collectstatic -v0 --noinput
 
 chown -R www-data:www-data /var/www/"$CATALOG"
-
-if [ -z "$PASSWORD" ]
-then
-	PASSWORD=`date +%s | sha256sum | base64 | head -c 32`
-        echo "Generated PASSWORD ${PASSWORD}"
-fi
-
-/usr/bin/python /var/www/mooc-lp-statistics/manage.py migrate
-/usr/bin/python /var/www/mooc-lp-statistics/manage.py createadminuser --login=${DJANGO_USER_NAME} --email=${DJANGO_USER_EMAIL} --password=${PASSWORD}
 
 a2ensite $CONFIG_FILE
 
