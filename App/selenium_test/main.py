@@ -2,6 +2,7 @@ import unittest
 import sys
 from basic_selenium_test import BasicSeleniumTest
 
+from test_admin_login import TestAdminLogin
 from test_time_fltr_check import TestTimeFilterOnExist
 from test_event_fltr_check import TestEventFilterOnExist
 from test_event_list_check import TestEventListOnExist
@@ -12,6 +13,7 @@ from test_several_input_forms import TestSeveralInputForms
 def main(host):
     suite = unittest.TestSuite()
 
+    suite.addTest(BasicSeleniumTest.parametrize(TestAdminLogin,param=host))
     suite.addTest(BasicSeleniumTest.parametrize(TestTimeFilterOnExist,param=host))
     suite.addTest(BasicSeleniumTest.parametrize(TestEventFilterOnExist, param=host))
     suite.addTest(BasicSeleniumTest.parametrize(TestEventListOnExist, param=host))
