@@ -1,5 +1,7 @@
 #!/bin/bash
 
+CATALOG='mooc-lp-statistics'
+
 echo
 echo "==================== SELENIUMTESTS ====================="
 echo

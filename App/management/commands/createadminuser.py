@@ -11,6 +11,7 @@ class Command(BaseCommand):
         parser.add_argument('--login', help='login')
         parser.add_argument('--email', help='email')
         parser.add_argument('--password', help='password')
+        parser.add_argument('--delete', help='delete')
         # Named (optional) arguments
         #parser.add_argument('--delete', action='store_true', dest='delete', default=False, help='Delete poll instead of closing it')
 
@@ -41,8 +42,11 @@ class Command(BaseCommand):
                 self.stdout.write(password)
 
             else:
-                self.stdout.write('Looks like this username already exists')
-
+                if options['delete'] == "yes":
+                    u = User.objects.get(username = username)
+                    u.delete()
+                else:
+                    self.stdout.write('Looks like this username already exists')
 
         else:
             self.stdout.write("One of the arguments is missed: (--login, --email or --password)")

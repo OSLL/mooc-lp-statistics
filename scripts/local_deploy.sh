@@ -58,6 +58,14 @@ fi
 
 python ./manage.py createadminuser --login=${DJANGO_USER_NAME} --email=${DJANGO_USER_EMAIL} --password=${PASSWORD}
 
+while getopts "t" opt
+ do
+ case $opt in
+ t) python /var/www/"$CATALOG"/manage.py createadminuser --login=testSeleniumLogin --email=admin@testSeleniumLogin.ru --password=testSeleniumPassword;;
+ *);;
+ esac
+ done
+
 a2ensite $CONFIG_FILE
 
 service apache2 restart
